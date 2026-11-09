@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../app_theme.dart';
+import '../cash/ensure_open.dart';
 import '../data/bill.dart';
 import '../data/bills_provider.dart';
 import '../data/catalog_provider.dart';
@@ -10,6 +11,7 @@ import '../data/payment_accounts_provider.dart';
 import '../floor/checkout.dart';
 import '../l10n/l10n.dart';
 import '../products/product_picker.dart';
+import '../shell/notice_board.dart';
 import '../shell/pill.dart';
 
 /// Quick sale ("بيع سريع"): drinks and snacks for someone who is not playing. Tap products, pick
@@ -35,7 +37,10 @@ class _QuickSaleScreenState extends ConsumerState<QuickSaleScreen> {
     });
   }
 
-  void _sell() {
+  Future<void> _sell() async {
+    // No payment without an open cash box: ask staff to open one first.
+    if (!await ensureCashBoxOpen(context, ref)) return;
+    if (!mounted) return;
     final bill = ref.read(billsProvider.notifier).quickSale(_quantities, method: _method);
     if (bill == null) return;
     final l10n = context.l10n;
@@ -43,9 +48,12 @@ class _QuickSaleScreenState extends ConsumerState<QuickSaleScreen> {
       _quantities.clear();
       _method = PaymentMethod.cash;
     });
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(SnackBar(content: Text('${l10n.quickSaleDone} · ${l10n.amountEgp(formatMoney(bill.total))}')));
+    // The same notice card as the time alerts, not a white bar (#23).
+    ref.read(noticeBoardProvider.notifier).show(
+          NoticeKind.info,
+          '${l10n.quickSaleDone} · ${l10n.amountEgp(formatMoney(bill.total))}',
+          autoHide: const Duration(seconds: 3),
+        );
   }
 
   @override

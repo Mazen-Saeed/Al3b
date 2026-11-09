@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../app_theme.dart';
 import '../data/sample_data.dart';
+import '../data/staff_provider.dart';
 import '../data/unit.dart';
 import '../data/units_provider.dart';
 import '../l10n/l10n.dart';
@@ -65,6 +66,14 @@ class FloorHeader extends ConsumerWidget {
           onPressed: () => ref.read(navProvider.notifier).open(NavPage.quickSale),
           icon: const Icon(Icons.add, size: 20),
           label: Text(l10n.navQuickSale),
+        ),
+        // Who is using the app, and the button that hands it to the next person (the PIN screen).
+        _HeaderChip(children: [Text(ref.watch(currentStaffProvider)?.name ?? '', style: const TextStyle(fontWeight: FontWeight.w600))]),
+        FilledButton.tonalIcon(
+          key: const Key('lock-button'),
+          onPressed: () => ref.read(currentStaffIdProvider.notifier).lock(),
+          icon: const Icon(Icons.lock_outline, size: 20),
+          label: Text(l10n.switchStaff),
         ),
       ],
     );

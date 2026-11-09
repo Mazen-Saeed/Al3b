@@ -9,6 +9,7 @@ import 'l10n/l10n.dart';
 import 'shell/app_shell.dart';
 import 'shell/notice_overlay.dart';
 import 'shell/session_alerts.dart';
+import 'shell/staff_gate.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized(); // a plugin is used before runApp
@@ -37,7 +38,7 @@ class MyApp extends ConsumerWidget {
       theme: appTheme,
       // builder wraps the whole app, so notices float above every page.
       builder: (context, child) => NoticeOverlay(child: child!),
-      home: const SessionAlerts(child: AppShell()),
+      home: const SessionAlerts(child: StaffGate(child: AppShell())),
     );
   }
 }

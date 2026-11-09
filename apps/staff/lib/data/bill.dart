@@ -17,6 +17,8 @@ class Bill {
     required this.discount,
     this.discountReason,
     required this.method,
+    this.cashBoxId,
+    this.takenById,
   });
 
   final String? unitId; // null = a quick sale (no unit, no session)
@@ -30,9 +32,17 @@ class Bill {
   final int discount; // piasters taken off, never more than the subtotal
   final String? discountReason;
   final PaymentMethod method;
+  final String? cashBoxId; // the cash box that was open when it was paid
+  final String? takenById; // who took the payment
 
   /// Drinks or snacks sold to someone who is not playing: a bill with order lines and no unit.
-  Bill.quickSale({required DateTime at, required this.lines, required this.method})
+  Bill.quickSale({
+    required DateTime at,
+    required this.lines,
+    required this.method,
+    this.cashBoxId,
+    this.takenById,
+  })
       : unitId = null,
         unitName = null,
         startedAt = at,

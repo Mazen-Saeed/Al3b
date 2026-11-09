@@ -1,6 +1,7 @@
 import 'bill.dart';
 import 'payment_account.dart';
 import 'product.dart';
+import 'staff_member.dart';
 import 'stock.dart';
 import 'unit.dart';
 
@@ -19,6 +20,13 @@ const samplePaymentAccounts = {
     phone: '01098626879',
   ),
 };
+
+/// Sample staff (the owner adds the real ones later). PINs are sample values.
+List<StaffMember> buildSampleStaff() => const [
+      StaffMember(id: 'staff-1', name: 'مازن', pin: '1234', isAdmin: true),
+      StaffMember(id: 'staff-2', name: 'أحمد', pin: '1111'),
+      StaffMember(id: 'staff-3', name: 'منى', pin: '2222'),
+    ];
 
 /// Sample connection state (comes from the sync service later).
 const sampleIsOnline = true;

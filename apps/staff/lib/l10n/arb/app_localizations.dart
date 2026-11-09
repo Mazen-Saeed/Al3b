@@ -1141,6 +1141,372 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Resume all'**
   String get resumeAll;
+
+  /// Title of the lock screen: everyone who uses the app, owner included, picks their name
+  ///
+  /// In en, this message translates to:
+  /// **'Pick your name'**
+  String get pickYourName;
+
+  /// Shown above the PIN dots after a name is picked
+  ///
+  /// In en, this message translates to:
+  /// **'Type your PIN'**
+  String get enterPin;
+
+  /// Shown when the PIN does not match
+  ///
+  /// In en, this message translates to:
+  /// **'Wrong PIN, try again'**
+  String get wrongPin;
+
+  /// Link on the PIN step that goes back to the list of names
+  ///
+  /// In en, this message translates to:
+  /// **'Not you?'**
+  String get notYou;
+
+  /// Cash box page: title shown while no cash box is open
+  ///
+  /// In en, this message translates to:
+  /// **'The cash box is closed'**
+  String get cashBoxClosedTitle;
+
+  /// Button that opens a cash box
+  ///
+  /// In en, this message translates to:
+  /// **'Open the cash box'**
+  String get openCashBox;
+
+  /// Shown when someone pays and no cash box is open
+  ///
+  /// In en, this message translates to:
+  /// **'Open the cash box first, to take a payment'**
+  String get openCashBoxFirst;
+
+  /// Field when opening: the starting cash
+  ///
+  /// In en, this message translates to:
+  /// **'Cash in the box now'**
+  String get openingCashLabel;
+
+  /// The person who opened the cash box and holds the cash
+  ///
+  /// In en, this message translates to:
+  /// **'Cashier'**
+  String get cashierLabel;
+
+  /// Small label before the time a cash box was opened
+  ///
+  /// In en, this message translates to:
+  /// **'Opened'**
+  String get openedLabel;
+
+  /// Cash taken out of the box to pay for something
+  ///
+  /// In en, this message translates to:
+  /// **'Expense'**
+  String get expenseAction;
+
+  /// Cash put into the box that is not a sale
+  ///
+  /// In en, this message translates to:
+  /// **'Cash in'**
+  String get cashInAction;
+
+  /// Cash the owner takes out of the box
+  ///
+  /// In en, this message translates to:
+  /// **'Owner withdrawal'**
+  String get ownerWithdrawalAction;
+
+  /// Hint of the reason field of an expense or withdrawal
+  ///
+  /// In en, this message translates to:
+  /// **'Reason'**
+  String get movementReasonHint;
+
+  /// Hint of the amount field
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get movementAmountHint;
+
+  /// Button that closes the cash box
+  ///
+  /// In en, this message translates to:
+  /// **'Close the cash box'**
+  String get closeCashBox;
+
+  /// Close form: asks for the counted amount before showing the expected one
+  ///
+  /// In en, this message translates to:
+  /// **'Count the cash in the box and type it'**
+  String get countedHint;
+
+  /// Title of the result shown after closing
+  ///
+  /// In en, this message translates to:
+  /// **'The cash box is closed'**
+  String get cashBoxClosedDone;
+
+  /// Result after closing: the amount the app worked out
+  ///
+  /// In en, this message translates to:
+  /// **'Should be'**
+  String get cashExpected;
+
+  /// Result after closing: the amount staff counted
+  ///
+  /// In en, this message translates to:
+  /// **'You counted'**
+  String get cashCounted;
+
+  /// Result after closing: more cash than expected
+  ///
+  /// In en, this message translates to:
+  /// **'Extra'**
+  String get cashOver;
+
+  /// Result after closing: less cash than expected
+  ///
+  /// In en, this message translates to:
+  /// **'Missing'**
+  String get cashShort;
+
+  /// Result after closing: counted equals expected
+  ///
+  /// In en, this message translates to:
+  /// **'It matches'**
+  String get cashMatches;
+
+  /// Shown to staff who are not the cashier
+  ///
+  /// In en, this message translates to:
+  /// **'Only the cashier or an Admin can do this'**
+  String get onlyCashierHint;
+
+  /// Empty list of expenses and cash in
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing recorded yet'**
+  String get noMovementsYet;
+
+  /// Heading of the last closed cash box summary
+  ///
+  /// In en, this message translates to:
+  /// **'Last time'**
+  String get lastCloseTitle;
+
+  /// Button that closes a result
+  ///
+  /// In en, this message translates to:
+  /// **'OK'**
+  String get doneButton;
+
+  /// Cash box page: heading of the list of bills paid while it was open
+  ///
+  /// In en, this message translates to:
+  /// **'Payments'**
+  String get paymentsTitle;
+
+  /// Cash box page: heading of the list of expenses, cash in and withdrawals
+  ///
+  /// In en, this message translates to:
+  /// **'Expenses and cash in'**
+  String get movementsTitle;
+
+  /// Live amount the app expects, shown to Admins or when the shop setting is on
+  ///
+  /// In en, this message translates to:
+  /// **'Should be in the box now'**
+  String get expectedNowLabel;
+
+  /// Heading of the list of closed cash boxes
+  ///
+  /// In en, this message translates to:
+  /// **'Past cash boxes'**
+  String get pastCashBoxesTitle;
+
+  /// Detail of a past cash box: the starting cash
+  ///
+  /// In en, this message translates to:
+  /// **'Started with'**
+  String get startedWithLabel;
+
+  /// Small label before the time a cash box was closed
+  ///
+  /// In en, this message translates to:
+  /// **'Closed'**
+  String get closedLabel;
+
+  /// Setting: let the cashier see the expected cash before counting
+  ///
+  /// In en, this message translates to:
+  /// **'Show the expected cash during the shift'**
+  String get showExpectedSetting;
+
+  /// Explains the show-expected-cash setting
+  ///
+  /// In en, this message translates to:
+  /// **'Admins always see it. When hidden, the cashier counts without knowing the number.'**
+  String get showExpectedHelp;
+
+  /// Question on the expense and purchase forms
+  ///
+  /// In en, this message translates to:
+  /// **'Where did the money come from?'**
+  String get paidFromQuestion;
+
+  /// Answer: the money came out of the drawer
+  ///
+  /// In en, this message translates to:
+  /// **'From the cash box'**
+  String get paidFromCashBox;
+
+  /// Answer: the person paid with their own money
+  ///
+  /// In en, this message translates to:
+  /// **'From my pocket'**
+  String get paidFromPocket;
+
+  /// Shown when a staff member picks from my pocket
+  ///
+  /// In en, this message translates to:
+  /// **'The shop will owe you this money until it is paid back.'**
+  String get owedHint;
+
+  /// Hint on the expense form
+  ///
+  /// In en, this message translates to:
+  /// **'Bought stock? Use the Bought button in Stock instead.'**
+  String get stockHint;
+
+  /// Small label on a cash box row that came from a stock purchase
+  ///
+  /// In en, this message translates to:
+  /// **'Stock'**
+  String get stockLabel;
+
+  /// Cash box page: heading of the list of people the shop must pay back
+  ///
+  /// In en, this message translates to:
+  /// **'What the shop owes'**
+  String get owedTitle;
+
+  /// Button: the shop paid the person back
+  ///
+  /// In en, this message translates to:
+  /// **'Paid back'**
+  String get settleOwed;
+
+  /// Answer when paying a person back: not from the drawer
+  ///
+  /// In en, this message translates to:
+  /// **'From outside the box'**
+  String get settleOutside;
+
+  /// Reason written when a person is paid back from the cash box
+  ///
+  /// In en, this message translates to:
+  /// **'Paid back to'**
+  String get settleNote;
+
+  /// Small line on a row paid from someone's pocket, followed by the name
+  ///
+  /// In en, this message translates to:
+  /// **'From the pocket of'**
+  String get paidFromPocketOf;
+
+  /// Manage list entry and page title: the kinds of expense (salaries, rent...)
+  ///
+  /// In en, this message translates to:
+  /// **'Expense categories'**
+  String get expenseCategoriesTitle;
+
+  /// Button: add an expense category
+  ///
+  /// In en, this message translates to:
+  /// **'New category'**
+  String get newExpenseCategory;
+
+  /// Placeholder of the category name field
+  ///
+  /// In en, this message translates to:
+  /// **'Category name'**
+  String get categoryNameHint;
+
+  /// Shown when the typed category name is already in the list
+  ///
+  /// In en, this message translates to:
+  /// **'This category already exists'**
+  String get categoryExists;
+
+  /// Button on the category form
+  ///
+  /// In en, this message translates to:
+  /// **'Delete category'**
+  String get deleteCategory;
+
+  /// Question above the category buttons on the expense form
+  ///
+  /// In en, this message translates to:
+  /// **'What is this expense for?'**
+  String get categoryQuestion;
+
+  /// Placeholder of the note field when a note is not required
+  ///
+  /// In en, this message translates to:
+  /// **'Note (optional)'**
+  String get movementNoteOptionalHint;
+
+  /// Small label on a category that cannot be changed
+  ///
+  /// In en, this message translates to:
+  /// **'Built in'**
+  String get categoryBuiltIn;
+
+  /// Title of the notifications page and the bell's tooltip
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notificationsTitle;
+
+  /// Button: remove every notification
+  ///
+  /// In en, this message translates to:
+  /// **'Clear all'**
+  String get clearAll;
+
+  /// Shown when the notifications list is empty
+  ///
+  /// In en, this message translates to:
+  /// **'No notifications'**
+  String get noNotifications;
+
+  /// Tab on the Shift page: the open shift
+  ///
+  /// In en, this message translates to:
+  /// **'Current shift'**
+  String get currentShiftTab;
+
+  /// Heading of the time-ordered list of sales and money in or out
+  ///
+  /// In en, this message translates to:
+  /// **'What happened in this shift'**
+  String get shiftActivityTitle;
+
+  /// Small tag on money that did not go into the drawer (InstaPay, wallet, paid from a pocket)
+  ///
+  /// In en, this message translates to:
+  /// **'Not in the drawer'**
+  String get outsideDrawer;
+
+  /// Heading above the InstaPay and wallet totals of a shift
+  ///
+  /// In en, this message translates to:
+  /// **'Paid outside the drawer'**
+  String get outsideDrawerTitle;
 }
 
 class _AppLocalizationsDelegate

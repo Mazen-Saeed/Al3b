@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../app_theme.dart';
+import '../cash/paid_from_pills.dart';
+import '../data/cash_box.dart';
 import '../data/money.dart';
 import '../data/stock.dart';
 import '../l10n/l10n.dart';
@@ -9,10 +11,13 @@ import '../shell/form_surface.dart';
 
 /// One shopping trip: what was bought and what each line cost.
 class PurchaseResult {
-  const PurchaseResult({required this.lines});
+  const PurchaseResult({required this.lines, this.paidFrom = PaidFrom.cashBox});
 
   /// Stock item id -> how many arrived and what was paid for them (only items with quantity > 0).
   final Map<String, PurchaseLine> lines;
+
+  /// Where the money came from: the cash box or someone's pocket.
+  final PaidFrom paidFrom;
 }
 
 /// The "اشتريت" form: type how many of each item were bought on one trip, and for each one what it
@@ -20,16 +25,17 @@ class PurchaseResult {
 Future<PurchaseResult?> showPurchaseForm(BuildContext context, List<StockItem> items) =>
     showFormSurface<PurchaseResult>(context, _PurchaseForm(items: items));
 
-class _PurchaseForm extends StatefulWidget {
+class _PurchaseForm extends ConsumerStatefulWidget {
   const _PurchaseForm({required this.items});
 
   final List<StockItem> items;
 
   @override
-  State<_PurchaseForm> createState() => _PurchaseFormState();
+  ConsumerState<_PurchaseForm> createState() => _PurchaseFormState();
 }
 
-class _PurchaseFormState extends State<_PurchaseForm> {
+class _PurchaseFormState extends ConsumerState<_PurchaseForm> {
+  late PaidFrom _paidFrom = defaultPaidFrom(ref);
   // Per item: how many (type 50 instead of tapping + fifty times; empty or 0 = not bought) and, once
   // a number is typed, what that line cost.
   late final Map<String, TextEditingController> _fields = {
@@ -96,9 +102,17 @@ class _PurchaseFormState extends State<_PurchaseForm> {
               ),
             ],
           ),
+          const SizedBox(height: 16),
+          PaidFromPills(value: _paidFrom, onChanged: (v) => setState(() => _paidFrom = v)),
           const SizedBox(height: 22),
           FilledButton(
-            onPressed: _canSave ? () => Navigator.pop(context, PurchaseResult(lines: _lines)) : null,
+            key: const Key('purchase-save'),
+            onPressed: _canSave
+                ? () => Navigator.pop(
+                      context,
+                      PurchaseResult(lines: _lines, paidFrom: canPayFromCashBox(ref) ? _paidFrom : PaidFrom.pocket),
+                    )
+                : null,
             style: FilledButton.styleFrom(minimumSize: const Size(0, 60)),
             child: Text(l10n.purchaseConfirm, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
           ),
@@ -156,7 +170,7 @@ class _PurchaseRow extends StatelessWidget {
                     key: ValueKey('buy-${item.id}'),
                     controller: quantity,
                     keyboardType: TextInputType.number,
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                    inputFormatters: countInputFormatters,
                     textAlign: TextAlign.center,
                     decoration: const InputDecoration(hintText: '0'),
                     onChanged: (_) => onChanged(),

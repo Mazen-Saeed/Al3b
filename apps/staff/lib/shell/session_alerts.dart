@@ -58,12 +58,12 @@ class _SessionAlertsState extends ConsumerState<SessionAlerts> {
     final board = ref.read(noticeBoardProvider.notifier);
     switch (threshold.inMinutes) {
       case 10:
-        board.show(NoticeKind.endingSoon, l10n.alertTenMinutes(unit.name), autoHide: const Duration(seconds: 10));
+        board.show(NoticeKind.endingSoon, l10n.alertTenMinutes(unit.name), autoHide: const Duration(seconds: 10), unitId: unit.id);
       case 1:
-        board.show(NoticeKind.lastMinute, l10n.alertOneMinute(unit.name), autoHide: const Duration(seconds: 15));
+        board.show(NoticeKind.lastMinute, l10n.alertOneMinute(unit.name), autoHide: const Duration(seconds: 15), unitId: unit.id);
       default:
         // Time is up: stays until staff close it.
-        board.show(NoticeKind.timeUp, l10n.alertTimeUp(unit.name));
+        board.show(NoticeKind.timeUp, l10n.alertTimeUp(unit.name), unitId: unit.id);
     }
   }
 

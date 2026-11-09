@@ -7,6 +7,7 @@ class NavPage {
   static const reservations = 2;
   static const shift = 3;
   static const manage = 4;
+  static const settings = 5;
 }
 
 /// Which page is showing. It lives in a provider, not inside the shell, so a button on one page
@@ -19,3 +20,16 @@ class NavNotifier extends Notifier<int> {
 }
 
 final navProvider = NotifierProvider<NavNotifier, int>(NavNotifier.new);
+
+/// A unit the Floor should open (its panel, and the highlight ring), set when staff tap a
+/// notification about it. The Floor takes it and clears it.
+class FocusUnitNotifier extends Notifier<String?> {
+  @override
+  String? build() => null;
+
+  void focus(String unitId) => state = unitId;
+
+  void clear() => state = null;
+}
+
+final focusUnitProvider = NotifierProvider<FocusUnitNotifier, String?>(FocusUnitNotifier.new);

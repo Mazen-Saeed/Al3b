@@ -1,25 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../app_theme.dart';
+import '../data/staff_provider.dart';
 import '../l10n/l10n.dart';
+import 'needs_action_provider.dart';
 
 /// The app's side navigation (shared by all screens).
 /// On the start side: right in Arabic, left in English.
-class SideNav extends StatelessWidget {
+class SideNav extends ConsumerWidget {
   const SideNav({
     super.key,
     required this.selectedIndex,
     required this.onSelect,
-    this.hasNewReservation = false,
   });
 
   final int selectedIndex; // which item is highlighted
   final ValueChanged<int> onSelect; // called with the tapped item's index
-  final bool hasNewReservation; // shows a dot on the reservations icon
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
+    final name = ref.watch(currentStaffProvider)?.name ?? '';
+    final dots = ref.watch(navDotsProvider); // nav pages with something waiting
 
     // The items, in order. Index 0 is the Floor screen.
     final items = [
@@ -36,65 +39,89 @@ class SideNav extends StatelessWidget {
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(28),
       ),
-      child: Column(
-        children: [
-          // App mark: first letter of the name on a cream square.
-          Container(
-            width: 52,
-            height: 52,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: AppColors.running,
-              borderRadius: BorderRadius.circular(18),
-            ),
-            child: Text(
-              l10n.appTitle.characters.first,
-              style: const TextStyle(color: AppColors.textOnLight, fontSize: 22, fontWeight: FontWeight.w700),
-            ),
-          ),
-          const SizedBox(height: 14),
-          for (final (index, (icon, label)) in items.indexed)
-            Padding(
-              padding: const EdgeInsetsDirectional.only(bottom: 6),
-              child: _NavButton(
-                icon: icon,
-                label: label,
-                selected: index == selectedIndex,
-                showDot: index == 2 && hasNewReservation,
-                onTap: () => onSelect(index),
+      // When the window is too short for every button, the nav scrolls instead of overflowing.
+      // (minHeight + IntrinsicHeight keep the Spacer working: in a tall window the profile button
+      // still sits at the bottom.)
+      child: LayoutBuilder(
+        builder: (context, constraints) => SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: constraints.maxHeight),
+            child: IntrinsicHeight(
+              child: Column(
+                children: [
+                  // App mark: first letter of the name on a cream square.
+                  Container(
+                    width: 52,
+                    height: 52,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: AppColors.running,
+                      borderRadius: BorderRadius.circular(18),
+                    ),
+                    child: Text(
+                      l10n.appTitle.characters.first,
+                      style: const TextStyle(color: AppColors.textOnLight, fontSize: 22, fontWeight: FontWeight.w700),
+                    ),
+                  ),
+                  const SizedBox(height: 14),
+                  for (final (index, (icon, label)) in items.indexed)
+                    Padding(
+                      padding: const EdgeInsetsDirectional.only(bottom: 6),
+                      child: _NavButton(
+                        icon: icon,
+                        label: label,
+                        selected: index == selectedIndex,
+                        showDot: dots.contains(index),
+                        onTap: () => onSelect(index),
+                      ),
+                    ),
+                  const Spacer(),
+                  // Management (staff, units & prices, products, reports, settings).
+                  // TODO: show only to owners and managers once login exists.
+                  Padding(
+                    padding: const EdgeInsetsDirectional.only(bottom: 12),
+                    child: _NavButton(
+                      icon: Icons.tune_rounded,
+                      label: l10n.navManage,
+                      selected: selectedIndex == items.length,
+                      showDot: dots.contains(items.length),
+                      onTap: () => onSelect(items.length),
+                    ),
+                  ),
+                  // Settings sits right under Management.
+                  Padding(
+                    padding: const EdgeInsetsDirectional.only(bottom: 12),
+                    child: _NavButton(
+                      icon: Icons.settings_outlined,
+                      label: l10n.settingsTitle,
+                      selected: selectedIndex == items.length + 1,
+                      onTap: () => onSelect(items.length + 1),
+                    ),
+                  ),
+                  // The person using the app (hover shows the name). It will open their profile later;
+                  // switching person is the button in the Floor header.
+                  Tooltip(
+                    message: name,
+                    child: InkWell(
+                      onTap: () {}, // TODO: open the profile
+                      customBorder: const CircleBorder(),
+                      child: Container(
+                        width: 52,
+                        height: 52,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(color: AppColors.raised, width: 2),
+                        ),
+                        child: const Icon(Icons.person_outline_rounded, size: 26),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-          const Spacer(),
-          // Management (staff, units & prices, products, reports, settings).
-          // TODO: show only to owners and managers once login exists.
-          Padding(
-            padding: const EdgeInsetsDirectional.only(bottom: 12),
-            child: _NavButton(
-              icon: Icons.tune_rounded,
-              label: l10n.navManage,
-              selected: selectedIndex == items.length,
-              onTap: () => onSelect(items.length),
-            ),
           ),
-          // Who is working now. Tapping it will open "Switch staff" (PIN).
-          Tooltip(
-            message: l10n.switchStaff,
-            child: InkWell(
-              onTap: () {}, // TODO: open the switch-staff screen
-              customBorder: const CircleBorder(),
-              child: Container(
-                width: 52,
-                height: 52,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(color: AppColors.raised, width: 2),
-                ),
-                child: const Text('أ', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600)),
-              ),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

@@ -58,14 +58,7 @@ class _NoticeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // (card color, text color, icon color, icon). Same colors as the tiles:
-    // coral = needs action, lavender = booking.
-    final (background, foreground, iconColor, icon) = switch (notice.kind) {
-      NoticeKind.endingSoon => (AppColors.raised, AppColors.text, AppColors.free, Icons.hourglass_bottom_rounded),
-      NoticeKind.lastMinute => (AppColors.raised, AppColors.text, AppColors.waitingPayment, Icons.timer_outlined),
-      NoticeKind.timeUp => (AppColors.waitingPayment, AppColors.onWaitingPayment, AppColors.onWaitingPayment, Icons.alarm_rounded),
-      NoticeKind.reservation => (AppColors.reserved, AppColors.onReserved, AppColors.onReserved, Icons.event_outlined),
-    };
+    final (background, foreground, iconColor, icon) = noticeLook(notice.kind);
 
     return Material(
       color: background,
@@ -94,3 +87,13 @@ class _NoticeCard extends StatelessWidget {
     );
   }
 }
+
+/// (card color, text color, icon color, icon) of a kind of notice. Same colors as the tiles:
+/// coral = needs action, lavender = booking. The banner and the notifications page share it.
+(Color, Color, Color, IconData) noticeLook(NoticeKind kind) => switch (kind) {
+      NoticeKind.endingSoon => (AppColors.raised, AppColors.text, AppColors.free, Icons.hourglass_bottom_rounded),
+      NoticeKind.lastMinute => (AppColors.raised, AppColors.text, AppColors.waitingPayment, Icons.timer_outlined),
+      NoticeKind.timeUp => (AppColors.waitingPayment, AppColors.onWaitingPayment, AppColors.onWaitingPayment, Icons.alarm_rounded),
+      NoticeKind.reservation => (AppColors.reserved, AppColors.onReserved, AppColors.onReserved, Icons.event_outlined),
+      NoticeKind.info => (AppColors.raised, AppColors.text, AppColors.free, Icons.check_circle_outline_rounded),
+    };

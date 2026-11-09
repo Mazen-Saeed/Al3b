@@ -1380,7 +1380,33 @@ namespace Al3b.Api.Migrations
                     b.HasKey("Id")
                         .HasName("pk_unit_types");
 
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasDatabaseName("ix_unit_types_name");
+
                     b.ToTable("unit_types", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("01990000-0000-7000-8000-000000000001"),
+                            Name = "PlayStation"
+                        },
+                        new
+                        {
+                            Id = new Guid("01990000-0000-7000-8000-000000000002"),
+                            Name = "Ping pong"
+                        },
+                        new
+                        {
+                            Id = new Guid("01990000-0000-7000-8000-000000000003"),
+                            Name = "Billiards"
+                        },
+                        new
+                        {
+                            Id = new Guid("01990000-0000-7000-8000-000000000004"),
+                            Name = "PC"
+                        });
                 });
 
             modelBuilder.Entity("Al3b.Api.Data.Entities.Venue", b =>

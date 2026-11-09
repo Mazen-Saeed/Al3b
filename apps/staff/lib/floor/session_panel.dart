@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../app_theme.dart';
+import '../cash/ensure_open.dart';
 import '../data/bills_provider.dart';
 import '../data/catalog_provider.dart';
 import '../data/clock_provider.dart';
@@ -56,6 +57,9 @@ class SessionPanel extends ConsumerWidget {
   }
 
   Future<void> _checkout(BuildContext context, WidgetRef ref, Unit unit) async {
+    // No payment without an open cash box: ask staff to open one first.
+    if (!await ensureCashBoxOpen(context, ref)) return;
+    if (!context.mounted) return;
     // Freeze the clock now: the form shows, and the bill saves, the amount at this moment.
     final endedAt = DateTime.now();
     final bills = ref.read(billsProvider.notifier);

@@ -809,5 +809,249 @@
   "resumeAll": "Resume all",
   "@resumeAll": {
     "description": "Floor header button that restarts the clocks stopped by Stop all"
+  },
+  "pickYourName": "Pick your name",
+  "@pickYourName": {
+    "description": "Title of the lock screen: everyone who uses the app, owner included, picks their name"
+  },
+  "enterPin": "Type your PIN",
+  "@enterPin": {
+    "description": "Shown above the PIN dots after a name is picked"
+  },
+  "wrongPin": "Wrong PIN, try again",
+  "@wrongPin": {
+    "description": "Shown when the PIN does not match"
+  },
+  "notYou": "Not you?",
+  "@notYou": {
+    "description": "Link on the PIN step that goes back to the list of names"
+  },
+  "cashBoxClosedTitle": "The cash box is closed",
+  "@cashBoxClosedTitle": {
+    "description": "Cash box page: title shown while no cash box is open"
+  },
+  "openCashBox": "Open the cash box",
+  "@openCashBox": {
+    "description": "Button that opens a cash box"
+  },
+  "openCashBoxFirst": "Open the cash box first, to take a payment",
+  "@openCashBoxFirst": {
+    "description": "Shown when someone pays and no cash box is open"
+  },
+  "openingCashLabel": "Cash in the box now",
+  "@openingCashLabel": {
+    "description": "Field when opening: the starting cash"
+  },
+  "cashierLabel": "Cashier",
+  "@cashierLabel": {
+    "description": "The person who opened the cash box and holds the cash"
+  },
+  "openedLabel": "Opened",
+  "@openedLabel": {
+    "description": "Small label before the time a cash box was opened"
+  },
+  "expenseAction": "Expense",
+  "@expenseAction": {
+    "description": "Cash taken out of the box to pay for something"
+  },
+  "cashInAction": "Cash in",
+  "@cashInAction": {
+    "description": "Cash put into the box that is not a sale"
+  },
+  "ownerWithdrawalAction": "Owner withdrawal",
+  "@ownerWithdrawalAction": {
+    "description": "Cash the owner takes out of the box"
+  },
+  "movementReasonHint": "Reason",
+  "@movementReasonHint": {
+    "description": "Hint of the reason field of an expense or withdrawal"
+  },
+  "movementAmountHint": "Amount",
+  "@movementAmountHint": {
+    "description": "Hint of the amount field"
+  },
+  "closeCashBox": "Close the cash box",
+  "@closeCashBox": {
+    "description": "Button that closes the cash box"
+  },
+  "countedHint": "Count the cash in the box and type it",
+  "@countedHint": {
+    "description": "Close form: asks for the counted amount before showing the expected one"
+  },
+  "cashBoxClosedDone": "The cash box is closed",
+  "@cashBoxClosedDone": {
+    "description": "Title of the result shown after closing"
+  },
+  "cashExpected": "Should be",
+  "@cashExpected": {
+    "description": "Result after closing: the amount the app worked out"
+  },
+  "cashCounted": "You counted",
+  "@cashCounted": {
+    "description": "Result after closing: the amount staff counted"
+  },
+  "cashOver": "Extra",
+  "@cashOver": {
+    "description": "Result after closing: more cash than expected"
+  },
+  "cashShort": "Missing",
+  "@cashShort": {
+    "description": "Result after closing: less cash than expected"
+  },
+  "cashMatches": "It matches",
+  "@cashMatches": {
+    "description": "Result after closing: counted equals expected"
+  },
+  "onlyCashierHint": "Only the cashier or an Admin can do this",
+  "@onlyCashierHint": {
+    "description": "Shown to staff who are not the cashier"
+  },
+  "noMovementsYet": "Nothing recorded yet",
+  "@noMovementsYet": {
+    "description": "Empty list of expenses and cash in"
+  },
+  "lastCloseTitle": "Last time",
+  "@lastCloseTitle": {
+    "description": "Heading of the last closed cash box summary"
+  },
+  "doneButton": "OK",
+  "@doneButton": {
+    "description": "Button that closes a result"
+  },
+  "paymentsTitle": "Payments",
+  "@paymentsTitle": {
+    "description": "Cash box page: heading of the list of bills paid while it was open"
+  },
+  "movementsTitle": "Expenses and cash in",
+  "@movementsTitle": {
+    "description": "Cash box page: heading of the list of expenses, cash in and withdrawals"
+  },
+  "expectedNowLabel": "Should be in the box now",
+  "@expectedNowLabel": {
+    "description": "Live amount the app expects, shown to Admins or when the shop setting is on"
+  },
+  "pastCashBoxesTitle": "Past cash boxes",
+  "@pastCashBoxesTitle": {
+    "description": "Heading of the list of closed cash boxes"
+  },
+  "startedWithLabel": "Started with",
+  "@startedWithLabel": {
+    "description": "Detail of a past cash box: the starting cash"
+  },
+  "closedLabel": "Closed",
+  "@closedLabel": {
+    "description": "Small label before the time a cash box was closed"
+  },
+  "showExpectedSetting": "Show the expected cash during the shift",
+  "@showExpectedSetting": {
+    "description": "Setting: let the cashier see the expected cash before counting"
+  },
+  "showExpectedHelp": "Admins always see it. When hidden, the cashier counts without knowing the number.",
+  "@showExpectedHelp": {
+    "description": "Explains the show-expected-cash setting"
+  },
+  "paidFromQuestion": "Where did the money come from?",
+  "@paidFromQuestion": {
+    "description": "Question on the expense and purchase forms"
+  },
+  "paidFromCashBox": "From the cash box",
+  "@paidFromCashBox": {
+    "description": "Answer: the money came out of the drawer"
+  },
+  "paidFromPocket": "From my pocket",
+  "@paidFromPocket": {
+    "description": "Answer: the person paid with their own money"
+  },
+  "owedHint": "The shop will owe you this money until it is paid back.",
+  "@owedHint": {
+    "description": "Shown when a staff member picks from my pocket"
+  },
+  "stockHint": "Bought stock? Use the Bought button in Stock instead.",
+  "@stockHint": {
+    "description": "Hint on the expense form"
+  },
+  "stockLabel": "Stock",
+  "@stockLabel": {
+    "description": "Small label on a cash box row that came from a stock purchase"
+  },
+  "owedTitle": "What the shop owes",
+  "@owedTitle": {
+    "description": "Cash box page: heading of the list of people the shop must pay back"
+  },
+  "settleOwed": "Paid back",
+  "@settleOwed": {
+    "description": "Button: the shop paid the person back"
+  },
+  "settleOutside": "From outside the box",
+  "@settleOutside": {
+    "description": "Answer when paying a person back: not from the drawer"
+  },
+  "settleNote": "Paid back to",
+  "@settleNote": {
+    "description": "Reason written when a person is paid back from the cash box"
+  },
+  "paidFromPocketOf": "From the pocket of",
+  "@paidFromPocketOf": {
+    "description": "Small line on a row paid from someone's pocket, followed by the name"
+  },
+  "expenseCategoriesTitle": "Expense categories",
+  "@expenseCategoriesTitle": {
+    "description": "Manage list entry and page title: the kinds of expense (salaries, rent...)"
+  },
+  "newExpenseCategory": "New category",
+  "@newExpenseCategory": {
+    "description": "Button: add an expense category"
+  },
+  "categoryNameHint": "Category name",
+  "@categoryNameHint": {
+    "description": "Placeholder of the category name field"
+  },
+  "categoryExists": "This category already exists",
+  "@categoryExists": {
+    "description": "Shown when the typed category name is already in the list"
+  },
+  "deleteCategory": "Delete category",
+  "@deleteCategory": {
+    "description": "Button on the category form"
+  },
+  "categoryQuestion": "What is this expense for?",
+  "@categoryQuestion": {
+    "description": "Question above the category buttons on the expense form"
+  },
+  "movementNoteOptionalHint": "Note (optional)",
+  "@movementNoteOptionalHint": {
+    "description": "Placeholder of the note field when a note is not required"
+  },
+  "categoryBuiltIn": "Built in",
+  "@categoryBuiltIn": {
+    "description": "Small label on a category that cannot be changed"
+  },
+  "notificationsTitle": "Notifications",
+  "@notificationsTitle": {
+    "description": "Title of the notifications page and the bell's tooltip"
+  },
+  "clearAll": "Clear all",
+  "@clearAll": {
+    "description": "Button: remove every notification"
+  },
+  "noNotifications": "No notifications",
+  "@noNotifications": {
+    "description": "Shown when the notifications list is empty"
+  },
+  "currentShiftTab": "Current shift",
+  "@currentShiftTab": {
+    "description": "Tab on the Shift page: the open shift"
+  },
+  "shiftActivityTitle": "What happened in this shift",
+  "@shiftActivityTitle": {
+    "description": "Heading of the time-ordered list of sales and money in or out"
+  },
+  "outsideDrawer": "Not in the drawer",
+  "@outsideDrawer": {
+    "description": "Small tag on money that did not go into the drawer (InstaPay, wallet, paid from a pocket)"
+  },
+  "outsideDrawerTitle": "Paid outside the drawer",
+  "@outsideDrawerTitle": {
+    "description": "Heading above the InstaPay and wallet totals of a shift"
   }
 }

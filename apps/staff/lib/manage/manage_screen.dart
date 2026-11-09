@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../app_theme.dart';
+import '../expenses/expense_categories_screen.dart';
 import '../l10n/l10n.dart';
 import '../places/places_screen.dart';
 import '../prices/prices_screen.dart';
 import '../products/products_screen.dart';
-import '../settings/settings_screen.dart';
 
 /// The setup areas that open in place of the Manage list.
-enum ManageArea { products, places, prices, settings }
+enum ManageArea { products, places, prices, expenseCategories }
 
 /// Which area is open (null = the list). It lives in a provider, not inside the page, so the shell
 /// can close it when staff tap the Manage button in the nav.
@@ -26,8 +26,8 @@ final manageAreaProvider = NotifierProvider<ManageAreaNotifier, ManageArea?>(Man
 
 /// The Manage page ("الإدارة"): a list of setup areas. Tapping one shows it in place of the
 /// list (the nav stays visible); its back button, or the Manage button in the nav, returns here.
-/// Products (with its stock), Rooms and devices and Settings are built; staff and reports will be
-/// added to this list.
+/// Products (with its stock), Rooms and devices and Prices are built; staff and reports will be
+/// added to this list. Settings is not here: it has its own place in the nav.
 class ManageScreen extends ConsumerWidget {
   const ManageScreen({super.key});
 
@@ -44,8 +44,8 @@ class ManageScreen extends ConsumerWidget {
         return PlacesScreen(onBack: areas.close);
       case ManageArea.prices:
         return PricesScreen(onBack: areas.close);
-      case ManageArea.settings:
-        return SettingsScreen(onBack: areas.close);
+      case ManageArea.expenseCategories:
+        return ExpenseCategoriesScreen(onBack: areas.close);
       case null:
         break;
     }
@@ -74,9 +74,9 @@ class ManageScreen extends ConsumerWidget {
         ),
         const SizedBox(height: 12),
         _ManageEntry(
-          icon: Icons.settings_outlined,
-          title: l10n.settingsTitle,
-          onTap: () => areas.open(ManageArea.settings),
+          icon: Icons.category_outlined,
+          title: l10n.expenseCategoriesTitle,
+          onTap: () => areas.open(ManageArea.expenseCategories),
         ),
       ],
     );

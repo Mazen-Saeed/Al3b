@@ -1,12 +1,16 @@
+import 'package:al3b_staff/data/cash_box.dart';
+import 'package:al3b_staff/data/cash_box_provider.dart';
 import 'package:al3b_staff/data/catalog_provider.dart';
 import 'package:al3b_staff/data/money.dart';
 import 'package:al3b_staff/data/preferences_provider.dart';
 import 'package:al3b_staff/data/product.dart';
 import 'package:al3b_staff/data/sample_data.dart';
+import 'package:al3b_staff/data/staff_provider.dart';
 import 'package:al3b_staff/data/stock.dart';
 import 'package:al3b_staff/data/unit.dart';
 import 'package:al3b_staff/data/units_provider.dart';
 import 'package:al3b_staff/main.dart';
+import 'package:al3b_staff/shell/notice_board.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -43,6 +47,8 @@ ProviderContainer makeContainer({
   List<StockItem> stockItems = const [],
 }) {
   final container = ProviderContainer(overrides: [
+    initialSignedInProvider.overrideWith((ref) => 'staff-1'),
+    initialCashBoxProvider.overrideWith((ref) => openCashBoxState()),
     initialUnitsProvider.overrideWith((ref) => units ?? [testUnit()]),
     initialCatalogProvider.overrideWith((ref) => Catalog(products: products, stockItems: stockItems)),
   ]);
@@ -57,12 +63,22 @@ DateTime ago(Duration d) => DateTime.now().subtract(d);
 /// Starts the whole app and waits until the Floor screen is showing.
 /// The first start loads translations asynchronously, so it can take a few frames.
 /// (pumpAndSettle() can't be used: the clock keeps scheduling frames.)
-Future<void> pumpApp(WidgetTester tester) async {
-  SharedPreferences.setMockInitialValues({}); // saved settings kept in memory: a fresh install every time
+Future<void> pumpApp(
+  WidgetTester tester, {
+  bool cashBoxOpen = true,
+  String staffId = 'staff-1',
+  Map<String, Object> savedSettings = const {},
+}) async {
+  SharedPreferences.setMockInitialValues(savedSettings); // saved settings kept in memory: a fresh install every time
   final prefs = await SharedPreferences.getInstance();
   await tester.pumpWidget(
     ProviderScope(
-      overrides: [sharedPreferencesProvider.overrideWith((ref) => prefs)],
+      overrides: [
+        sharedPreferencesProvider.overrideWith((ref) => prefs),
+        noticeSoundProvider.overrideWith((ref) => (_) {}), // no audio plugin in tests
+        initialSignedInProvider.overrideWith((ref) => staffId), // most tests start past the lock screen (staff-1 is an Admin)
+        if (cashBoxOpen) initialCashBoxProvider.overrideWith((ref) => openCashBoxState(openedBy: staffId)), // and with a cash box open, so payments work
+      ],
       child: const MyApp(),
     ),
   );
@@ -70,3 +86,8 @@ Future<void> pumpApp(WidgetTester tester) async {
     await tester.pump(const Duration(milliseconds: 100));
   }
 }
+
+/// A cash box opened by staff-1 (an Admin) with 100 EGP in it, as most tests need.
+CashBoxState openCashBoxState({int openingCash = 10000, String openedBy = 'staff-1'}) => CashBoxState(boxes: [
+      CashBox(id: 'box-1', openedAt: DateTime(2026, 1, 1, 9), openedById: openedBy, openingCash: openingCash),
+    ]);

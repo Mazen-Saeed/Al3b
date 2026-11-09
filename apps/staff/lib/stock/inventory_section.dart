@@ -6,8 +6,8 @@ import '../data/catalog_provider.dart';
 import '../data/stock.dart';
 import '../l10n/l10n.dart';
 import '../shell/add_card.dart';
+import 'buy_stock.dart';
 import 'stock_action_form.dart';
-import 'purchase_form.dart';
 import 'stock_item_form.dart';
 import 'stock_text.dart';
 
@@ -36,10 +36,7 @@ class InventorySection extends ConsumerWidget {
   }
 
   Future<void> _buy(BuildContext context, WidgetRef ref) async {
-    final catalog = ref.read(catalogProvider.notifier);
-    final result = await showPurchaseForm(context, ref.read(catalogProvider).stockItems);
-    if (result == null) return;
-    catalog.recordPurchase(result.lines);
+    await buyStock(context, ref);
   }
 
   Future<void> _open(BuildContext context, WidgetRef ref, StockItem item) async {

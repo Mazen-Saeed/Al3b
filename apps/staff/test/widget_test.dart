@@ -24,9 +24,7 @@ void main() {
 
   testWidgets('Settings switches the language to English and back', (tester) async {
     await pumpApp(tester);
-    await tester.tap(find.byIcon(Icons.tune_rounded));
-    await tester.pump(const Duration(milliseconds: 300));
-    await tester.tap(find.text(l10n.settingsTitle));
+    await tester.tap(find.byIcon(Icons.settings_outlined)); // Settings has its own place in the nav
     await tester.pump(const Duration(milliseconds: 300));
 
     await tester.tap(find.text('English'));
@@ -638,6 +636,7 @@ void _quickSaleTests() {
 
     expect(find.text('${l10n.quickSaleDone} · ${l10n.amountEgp('15')}'), findsOneWidget);
     expect(find.text(l10n.quickSaleSell), findsOneWidget); // cleared, ready for the next customer
+    await tester.pump(const Duration(seconds: 4)); // the notice hides itself
     expect(tester.takeException(), isNull);
   });
 }

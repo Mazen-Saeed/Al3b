@@ -109,7 +109,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get navReservations => 'الحجوزات';
 
   @override
-  String get navShift => 'الخزينة';
+  String get navShift => 'الشيفت';
 
   @override
   String get switchStaff => 'تبديل الموظف';
@@ -583,4 +583,188 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get resumeAll => 'كمل كله';
+
+  @override
+  String get pickYourName => 'اختار اسمك';
+
+  @override
+  String get enterPin => 'اكتب الرقم السري';
+
+  @override
+  String get wrongPin => 'الرقم غلط، جرّب تاني';
+
+  @override
+  String get notYou => 'مش أنت؟';
+
+  @override
+  String get cashBoxClosedTitle => 'الشيفت مقفول';
+
+  @override
+  String get openCashBox => 'افتح الشيفت';
+
+  @override
+  String get openCashBoxFirst => 'افتح الشيفت الأول عشان تبدأ تاخد فلوس';
+
+  @override
+  String get openingCashLabel => 'الفلوس اللي في الدرج دلوقتي';
+
+  @override
+  String get cashierLabel => 'الكاشير';
+
+  @override
+  String get openedLabel => 'اتفتحت';
+
+  @override
+  String get expenseAction => 'مصروف';
+
+  @override
+  String get cashInAction => 'فلوس دخلت';
+
+  @override
+  String get ownerWithdrawalAction => 'سحب لصاحب المحل';
+
+  @override
+  String get movementReasonHint => 'السبب';
+
+  @override
+  String get movementAmountHint => 'المبلغ';
+
+  @override
+  String get closeCashBox => 'اقفل الشيفت';
+
+  @override
+  String get countedHint => 'عد الفلوس اللي موجودة دلوقتي واكتب المبلغ';
+
+  @override
+  String get cashBoxClosedDone => 'الشيفت اتقفل';
+
+  @override
+  String get cashExpected => 'المفروض يكون';
+
+  @override
+  String get cashCounted => 'اللي عديته';
+
+  @override
+  String get cashOver => 'زيادة';
+
+  @override
+  String get cashShort => 'ناقص';
+
+  @override
+  String get cashMatches => 'مظبوطة';
+
+  @override
+  String get onlyCashierHint => 'الكاشير أو الأدمن بس اللي يعمل ده';
+
+  @override
+  String get noMovementsYet => 'لسة مفيش حاجة اتسجلت';
+
+  @override
+  String get lastCloseTitle => 'آخر مرة';
+
+  @override
+  String get doneButton => 'تمام';
+
+  @override
+  String get paymentsTitle => 'المبيعات';
+
+  @override
+  String get movementsTitle => 'المصاريف والفلوس اللي دخلت';
+
+  @override
+  String get expectedNowLabel => 'المفروض يكون في الدرج دلوقتي';
+
+  @override
+  String get pastCashBoxesTitle => 'الشيفتات اللي فاتت';
+
+  @override
+  String get startedWithLabel => 'بدأت بـ';
+
+  @override
+  String get closedLabel => 'اتقفلت';
+
+  @override
+  String get showExpectedSetting => 'الكاشير يشوف المفروض في الدرج';
+
+  @override
+  String get showExpectedHelp =>
+      'لو مقفول: الكاشير بيعد الفلوس من غير ما يعرف المفروض يبقى كام. الأدمن بيشوفه دايمًا.';
+
+  @override
+  String get paidFromQuestion => 'الفلوس طلعت منين؟';
+
+  @override
+  String get paidFromCashBox => 'من الدرج';
+
+  @override
+  String get paidFromPocket => 'من جيبي';
+
+  @override
+  String get owedHint => 'المحل هيبقى عليه الفلوس دي ليك لحد ما تتسدد.';
+
+  @override
+  String get stockHint => 'اشتريت حاجة للمخزون؟ استخدم زرار اشتريت في المخزون.';
+
+  @override
+  String get stockLabel => 'مخزون';
+
+  @override
+  String get owedTitle => 'اللي المحل عليه';
+
+  @override
+  String get settleOwed => 'اتسدد';
+
+  @override
+  String get settleOutside => 'من برة الدرج';
+
+  @override
+  String get settleNote => 'سداد لـ';
+
+  @override
+  String get paidFromPocketOf => 'من جيب';
+
+  @override
+  String get expenseCategoriesTitle => 'أنواع المصاريف';
+
+  @override
+  String get newExpenseCategory => 'نوع جديد';
+
+  @override
+  String get categoryNameHint => 'اسم النوع';
+
+  @override
+  String get categoryExists => 'النوع ده موجود قبل كده';
+
+  @override
+  String get deleteCategory => 'امسح النوع';
+
+  @override
+  String get categoryQuestion => 'المصروف ده من اني نوع؟';
+
+  @override
+  String get movementNoteOptionalHint => 'ملاحظة (اختياري)';
+
+  @override
+  String get categoryBuiltIn => 'أساسي';
+
+  @override
+  String get notificationsTitle => 'الإشعارات';
+
+  @override
+  String get clearAll => 'امسح الكل';
+
+  @override
+  String get noNotifications => 'مفيش إشعارات';
+
+  @override
+  String get currentShiftTab => 'الشيفت الحالي';
+
+  @override
+  String get shiftActivityTitle => 'اللي حصل في الشيفت';
+
+  @override
+  String get outsideDrawer => 'مش داخل الدرج';
+
+  @override
+  String get outsideDrawerTitle => 'اتدفع برة الدرج';
 }

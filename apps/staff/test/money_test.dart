@@ -52,6 +52,35 @@ void main() {
     });
   });
 
+  group('Arabic digits', () {
+    test('westernDigits turns Arabic and Persian digits and separators into normal ones', () {
+      expect(westernDigits('٠١٢٣٤٥٦٧٨٩'), '0123456789');
+      expect(westernDigits('۰۱۲۳۴۵۶۷۸۹'), '0123456789');
+      expect(westernDigits('٧٧٫٣٤'), '77.34');
+      expect(westernDigits('٧٧،٣٤'), '77,34');
+      expect(westernDigits('abc 12'), 'abc 12');
+    });
+
+    test('parseMoney understands Arabic digits', () {
+      expect(parseMoney('٧٧٫٣٤'), 7734);
+      expect(parseMoney('٦٠'), 6000);
+    });
+
+    test('the money field formatter turns Arabic digits into normal ones instead of dropping them', () {
+      TextEditingValue type(String text) {
+        var value = TextEditingValue.empty;
+        for (final f in moneyInputFormatters) {
+          value = f.formatEditUpdate(TextEditingValue.empty, TextEditingValue(text: text));
+          text = value.text;
+        }
+        return value;
+      }
+
+      expect(type('٧٥').text, '75');
+      expect(type('٧٥٫٥').text, '75.5');
+    });
+  });
+
   test('whole-int sums are exact where doubles are not', () {
     // 0.1 + 0.2 != 0.3 as doubles; as piasters 10 + 20 == 30.
     expect(10 + 20, 30);

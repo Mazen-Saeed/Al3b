@@ -8,6 +8,7 @@ import '../data/unit.dart';
 import '../data/units_provider.dart';
 import '../l10n/l10n.dart';
 import '../shell/layout.dart';
+import '../shell/nav_provider.dart';
 import 'floor_sections.dart';
 import 'floor_widgets.dart';
 import 'session_panel.dart';
@@ -41,6 +42,14 @@ class _FloorScreenState extends ConsumerState<FloorScreen> {
     // it opens the start form instead.
     final showPanel = isWide && selected != null && selected.status != UnitStatus.free;
     final sections = buildFloorSections(units, l10n, byType: _byType);
+
+    // A notification about a device was tapped: select it (the panel opens, or the sheet on small screens).
+    ref.listen(focusUnitProvider, (previous, id) {
+      if (id == null) return;
+      ref.read(focusUnitProvider.notifier).clear();
+      final unit = ref.read(unitsProvider).where((u) => u.id == id).firstOrNull;
+      if (unit != null && unit.status != UnitStatus.free) _select(unit, openSheet: !isWide);
+    });
 
     final running = units.where((u) => u.status == UnitStatus.running).length;
     final free = units.where((u) => u.status == UnitStatus.free).length;

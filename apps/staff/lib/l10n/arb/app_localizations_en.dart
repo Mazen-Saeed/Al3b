@@ -587,4 +587,190 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get resumeAll => 'Resume all';
+
+  @override
+  String get pickYourName => 'Pick your name';
+
+  @override
+  String get enterPin => 'Type your PIN';
+
+  @override
+  String get wrongPin => 'Wrong PIN, try again';
+
+  @override
+  String get notYou => 'Not you?';
+
+  @override
+  String get cashBoxClosedTitle => 'The cash box is closed';
+
+  @override
+  String get openCashBox => 'Open the cash box';
+
+  @override
+  String get openCashBoxFirst => 'Open the cash box first, to take a payment';
+
+  @override
+  String get openingCashLabel => 'Cash in the box now';
+
+  @override
+  String get cashierLabel => 'Cashier';
+
+  @override
+  String get openedLabel => 'Opened';
+
+  @override
+  String get expenseAction => 'Expense';
+
+  @override
+  String get cashInAction => 'Cash in';
+
+  @override
+  String get ownerWithdrawalAction => 'Owner withdrawal';
+
+  @override
+  String get movementReasonHint => 'Reason';
+
+  @override
+  String get movementAmountHint => 'Amount';
+
+  @override
+  String get closeCashBox => 'Close the cash box';
+
+  @override
+  String get countedHint => 'Count the cash in the box and type it';
+
+  @override
+  String get cashBoxClosedDone => 'The cash box is closed';
+
+  @override
+  String get cashExpected => 'Should be';
+
+  @override
+  String get cashCounted => 'You counted';
+
+  @override
+  String get cashOver => 'Extra';
+
+  @override
+  String get cashShort => 'Missing';
+
+  @override
+  String get cashMatches => 'It matches';
+
+  @override
+  String get onlyCashierHint => 'Only the cashier or an Admin can do this';
+
+  @override
+  String get noMovementsYet => 'Nothing recorded yet';
+
+  @override
+  String get lastCloseTitle => 'Last time';
+
+  @override
+  String get doneButton => 'OK';
+
+  @override
+  String get paymentsTitle => 'Payments';
+
+  @override
+  String get movementsTitle => 'Expenses and cash in';
+
+  @override
+  String get expectedNowLabel => 'Should be in the box now';
+
+  @override
+  String get pastCashBoxesTitle => 'Past cash boxes';
+
+  @override
+  String get startedWithLabel => 'Started with';
+
+  @override
+  String get closedLabel => 'Closed';
+
+  @override
+  String get showExpectedSetting => 'Show the expected cash during the shift';
+
+  @override
+  String get showExpectedHelp =>
+      'Admins always see it. When hidden, the cashier counts without knowing the number.';
+
+  @override
+  String get paidFromQuestion => 'Where did the money come from?';
+
+  @override
+  String get paidFromCashBox => 'From the cash box';
+
+  @override
+  String get paidFromPocket => 'From my pocket';
+
+  @override
+  String get owedHint =>
+      'The shop will owe you this money until it is paid back.';
+
+  @override
+  String get stockHint =>
+      'Bought stock? Use the Bought button in Stock instead.';
+
+  @override
+  String get stockLabel => 'Stock';
+
+  @override
+  String get owedTitle => 'What the shop owes';
+
+  @override
+  String get settleOwed => 'Paid back';
+
+  @override
+  String get settleOutside => 'From outside the box';
+
+  @override
+  String get settleNote => 'Paid back to';
+
+  @override
+  String get paidFromPocketOf => 'From the pocket of';
+
+  @override
+  String get expenseCategoriesTitle => 'Expense categories';
+
+  @override
+  String get newExpenseCategory => 'New category';
+
+  @override
+  String get categoryNameHint => 'Category name';
+
+  @override
+  String get categoryExists => 'This category already exists';
+
+  @override
+  String get deleteCategory => 'Delete category';
+
+  @override
+  String get categoryQuestion => 'What is this expense for?';
+
+  @override
+  String get movementNoteOptionalHint => 'Note (optional)';
+
+  @override
+  String get categoryBuiltIn => 'Built in';
+
+  @override
+  String get notificationsTitle => 'Notifications';
+
+  @override
+  String get clearAll => 'Clear all';
+
+  @override
+  String get noNotifications => 'No notifications';
+
+  @override
+  String get currentShiftTab => 'Current shift';
+
+  @override
+  String get shiftActivityTitle => 'What happened in this shift';
+
+  @override
+  String get outsideDrawer => 'Not in the drawer';
+
+  @override
+  String get outsideDrawerTitle => 'Paid outside the drawer';
 }

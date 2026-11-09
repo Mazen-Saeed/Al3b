@@ -173,4 +173,9 @@ void main() {
       expect(played(const Duration(hours: 2, minutes: 5)), 'ساعتين و5 دقايق');
     });
   });
+
+  test('every unit type has its own server id', () {
+    final ids = UnitType.values.map((t) => t.serverId).toSet();
+    expect(ids.length, UnitType.values.length);
+  });
 }

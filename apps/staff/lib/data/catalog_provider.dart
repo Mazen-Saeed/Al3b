@@ -164,13 +164,14 @@ class CatalogNotifier extends Notifier<Catalog> {
   /// "اشتريت": one shopping trip. [lines]: stock item id -> how many arrived and what was paid for
   /// them (piasters). The trip's total is the sum of the lines. Saves the trip and one log entry per
   /// item (with its cost), and adds to the shelf.
-  void recordPurchase(Map<String, PurchaseLine> lines) {
+  /// Returns the saved trip (null when nothing valid was bought).
+  Purchase? recordPurchase(Map<String, PurchaseLine> lines) {
     final bought = {
       for (final entry in lines.entries)
         if (entry.value.quantity > 0 && entry.value.cost >= 0 && state.stockItems.any((s) => s.id == entry.key))
           entry.key: entry.value,
     };
-    if (bought.isEmpty) return;
+    if (bought.isEmpty) return null;
     final id = newId();
     final items = [...state.stockItems];
     final movements = [...state.movements];
@@ -180,11 +181,9 @@ class CatalogNotifier extends Notifier<Catalog> {
       _writeMovement(items, movements, itemId, StockMovementKind.purchase, line.quantity,
           delta: line.quantity, purchaseId: id, cost: line.cost);
     });
-    state = state.copyWith(
-      stockItems: items,
-      movements: movements,
-      purchases: [...state.purchases, Purchase(id: id, total: total, at: DateTime.now())],
-    );
+    final purchase = Purchase(id: id, total: total, at: DateTime.now());
+    state = state.copyWith(stockItems: items, movements: movements, purchases: [...state.purchases, purchase]);
+    return purchase;
   }
 
   /// "فتحت علبة": [quantity] (usually 1) tins/packets were opened for use.

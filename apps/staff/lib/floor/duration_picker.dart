@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../app_theme.dart';
+import '../data/money.dart';
 import '../l10n/l10n.dart';
 import '../shell/pill.dart';
 
@@ -96,7 +97,7 @@ class _DurationPickerState extends State<DurationPicker> {
           TextField(
             controller: _hours,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]'))], // digits and a separator
+            inputFormatters: [const WesternDigitsFormatter(), FilteringTextInputFormatter.allow(RegExp(r'[0-9.,]'))], // digits and a separator
             onChanged: (_) {
               setState(() {});
               _emit();

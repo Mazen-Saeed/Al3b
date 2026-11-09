@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
+import '../data/money.dart';
 import '../app_theme.dart';
 import '../data/product.dart';
 import '../data/stock.dart';
@@ -158,7 +158,7 @@ class _StockItemFormState extends State<_StockItemForm> {
             TextField(
               controller: _count,
               keyboardType: TextInputType.number,
-              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              inputFormatters: countInputFormatters,
             ),
           ],
           const SizedBox(height: 18),
@@ -167,7 +167,7 @@ class _StockItemFormState extends State<_StockItemForm> {
           TextField(
             controller: _low,
             keyboardType: TextInputType.number,
-            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+            inputFormatters: countInputFormatters,
           ),
           const SizedBox(height: 22),
           FilledButton(

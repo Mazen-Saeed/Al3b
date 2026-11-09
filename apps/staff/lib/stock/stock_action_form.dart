@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
+import '../data/money.dart';
 import '../app_theme.dart';
 import '../data/stock.dart';
 import '../l10n/l10n.dart';
@@ -115,7 +115,7 @@ class _StockActionFormState extends State<_StockActionForm> {
             TextField(
               controller: _quantity,
               keyboardType: TextInputType.number,
-              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              inputFormatters: countInputFormatters,
               onChanged: (_) => setState(() {}), // redraw so the gap and the button update
             ),
             if (counted != null) ...[
