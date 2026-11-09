@@ -34,12 +34,14 @@ List<FloorSection> buildFloorSections(
 }) =>
     byType ? _sectionsByType(units, l10n) : _sectionsByPlace(units, l10n);
 
-String unitTypeName(UnitType type, AppLocalizations l10n) => switch (type) {
-      UnitType.playstation => l10n.typePlayStation,
-      UnitType.pingPong => l10n.typePingPong,
-      UnitType.billiards => l10n.typeBilliards,
-      UnitType.pc => l10n.typePc,
-    };
+/// The name staff see. The four built-in types are translated; the shop's own types show as typed.
+String unitTypeName(UnitType type, AppLocalizations l10n) {
+  if (type == UnitType.playstation) return l10n.typePlayStation;
+  if (type == UnitType.pingPong) return l10n.typePingPong;
+  if (type == UnitType.billiards) return l10n.typeBilliards;
+  if (type == UnitType.pc) return l10n.typePc;
+  return type.name;
+}
 
 List<FloorSection> _sectionsByPlace(List<Unit> units, AppLocalizations l10n) {
   // 1. Every shared hall is its own section. Private rooms are collected per type.
@@ -80,7 +82,9 @@ List<FloorSection> _sectionsByType(List<Unit> units, AppLocalizations l10n) {
   bool isPrivate(Unit u) => roomSize[u.roomId] == 1;
 
   final sections = <FloorSection>[];
-  for (final type in UnitType.values) {
+  // The built-in types first, then the shop's own in the order they first appear.
+  final types = {...UnitType.defaults, ...units.map((u) => u.type)};
+  for (final type in types) {
     final ofType = units.where((u) => u.type == type).toList();
     if (ofType.isEmpty) continue;
 

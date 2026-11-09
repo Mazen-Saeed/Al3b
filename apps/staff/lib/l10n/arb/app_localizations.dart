@@ -1507,6 +1507,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Paid outside the drawer'**
   String get outsideDrawerTitle;
+
+  /// Button and title for adding a type of device of the shop's own
+  ///
+  /// In en, this message translates to:
+  /// **'New type'**
+  String get newDeviceType;
+
+  /// Label above the name field of a new device type
+  ///
+  /// In en, this message translates to:
+  /// **'Name of the type'**
+  String get unitTypeNameLabel;
+
+  /// Example in the name field of a new device type
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. Toy cars'**
+  String get unitTypeNameHint;
+
+  /// Label above the icon choices of a new device type
+  ///
+  /// In en, this message translates to:
+  /// **'Icon'**
+  String get unitTypeIconLabel;
+
+  /// Switch in the new device type form
+  ///
+  /// In en, this message translates to:
+  /// **'Has a second price when more than one plays?'**
+  String get unitTypePairLabel;
+
+  /// Shown when the new type name is already used
+  ///
+  /// In en, this message translates to:
+  /// **'This type already exists'**
+  String get unitTypeExists;
 }
 
 class _AppLocalizationsDelegate

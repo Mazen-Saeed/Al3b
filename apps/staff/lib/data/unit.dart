@@ -1,22 +1,8 @@
 import 'money.dart';
 import 'price_category.dart';
+import 'unit_type.dart';
 
-/// What kind of thing is rented by time.
-enum UnitType { playstation, pingPong, billiards, pc }
-
-extension UnitTypeRules on UnitType {
-  /// Whether this kind can have a second price for two or more players. Billiards and PCs are one price.
-  bool get hasPairPrice => this == UnitType.playstation || this == UnitType.pingPong;
-
-  /// The id of this kind in the server's unit_types table (seeded in UnitTypeConfiguration.cs).
-  /// Sync sends it as unit_type_id. Never change these.
-  String get serverId => switch (this) {
-        UnitType.playstation => '01990000-0000-7000-8000-000000000001',
-        UnitType.pingPong => '01990000-0000-7000-8000-000000000002',
-        UnitType.billiards => '01990000-0000-7000-8000-000000000003',
-        UnitType.pc => '01990000-0000-7000-8000-000000000004',
-      };
-}
+export 'unit_type.dart';
 
 /// What a unit is doing right now. Each state looks different on the Floor screen.
 enum UnitStatus { free, running, waitingPayment, maintenance }

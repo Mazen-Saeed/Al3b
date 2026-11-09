@@ -66,7 +66,7 @@ class UnitTile extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  Icon(_iconFor(unit.type), size: 20, color: muted),
+                  Icon(unit.type.icon, size: 20, color: muted),
                 ],
               ),
               const Spacer(),
@@ -79,13 +79,6 @@ class UnitTile extends StatelessWidget {
       ),
     );
   }
-
-  static IconData _iconFor(UnitType type) => switch (type) {
-        UnitType.playstation => Icons.sports_esports,
-        UnitType.pingPong => Icons.sports_tennis,
-        UnitType.billiards => Icons.adjust,
-        UnitType.pc => Icons.computer,
-      };
 }
 
 /// The big line: the timer, the amount due, or the state name.

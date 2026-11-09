@@ -175,7 +175,7 @@ void main() {
   });
 
   test('every unit type has its own server id', () {
-    final ids = UnitType.values.map((t) => t.serverId).toSet();
-    expect(ids.length, UnitType.values.length);
+    final ids = UnitType.defaults.map((t) => t.serverId).toSet();
+    expect(ids.length, UnitType.defaults.length);
   });
 }

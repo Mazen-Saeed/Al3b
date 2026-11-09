@@ -767,4 +767,22 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get outsideDrawerTitle => 'اتدفع برة الدرج';
+
+  @override
+  String get newDeviceType => 'نوع جديد';
+
+  @override
+  String get unitTypeNameLabel => 'اسم النوع';
+
+  @override
+  String get unitTypeNameHint => 'مثلاً: عربيات';
+
+  @override
+  String get unitTypeIconLabel => 'الأيقونة';
+
+  @override
+  String get unitTypePairLabel => 'فيه سعر تاني لو أكتر من واحد بيلعب؟';
+
+  @override
+  String get unitTypeExists => 'النوع ده موجود';
 }

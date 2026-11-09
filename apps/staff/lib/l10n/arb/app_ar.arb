@@ -234,5 +234,11 @@
   "currentShiftTab": "الشيفت الحالي",
   "shiftActivityTitle": "اللي حصل في الشيفت",
   "outsideDrawer": "مش داخل الدرج",
-  "outsideDrawerTitle": "اتدفع برة الدرج"
+  "outsideDrawerTitle": "اتدفع برة الدرج",
+  "newDeviceType": "نوع جديد",
+  "unitTypeNameLabel": "اسم النوع",
+  "unitTypeNameHint": "مثلاً: عربيات",
+  "unitTypeIconLabel": "الأيقونة",
+  "unitTypePairLabel": "فيه سعر تاني لو أكتر من واحد بيلعب؟",
+  "unitTypeExists": "النوع ده موجود"
 }

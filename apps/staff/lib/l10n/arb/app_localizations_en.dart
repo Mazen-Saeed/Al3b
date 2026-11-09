@@ -773,4 +773,23 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get outsideDrawerTitle => 'Paid outside the drawer';
+
+  @override
+  String get newDeviceType => 'New type';
+
+  @override
+  String get unitTypeNameLabel => 'Name of the type';
+
+  @override
+  String get unitTypeNameHint => 'e.g. Toy cars';
+
+  @override
+  String get unitTypeIconLabel => 'Icon';
+
+  @override
+  String get unitTypePairLabel =>
+      'Has a second price when more than one plays?';
+
+  @override
+  String get unitTypeExists => 'This type already exists';
 }

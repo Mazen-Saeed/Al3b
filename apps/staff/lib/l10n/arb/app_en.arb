@@ -1053,5 +1053,29 @@
   "outsideDrawerTitle": "Paid outside the drawer",
   "@outsideDrawerTitle": {
     "description": "Heading above the InstaPay and wallet totals of a shift"
+  },
+  "newDeviceType": "New type",
+  "@newDeviceType": {
+    "description": "Button and title for adding a type of device of the shop's own"
+  },
+  "unitTypeNameLabel": "Name of the type",
+  "@unitTypeNameLabel": {
+    "description": "Label above the name field of a new device type"
+  },
+  "unitTypeNameHint": "e.g. Toy cars",
+  "@unitTypeNameHint": {
+    "description": "Example in the name field of a new device type"
+  },
+  "unitTypeIconLabel": "Icon",
+  "@unitTypeIconLabel": {
+    "description": "Label above the icon choices of a new device type"
+  },
+  "unitTypePairLabel": "Has a second price when more than one plays?",
+  "@unitTypePairLabel": {
+    "description": "Switch in the new device type form"
+  },
+  "unitTypeExists": "This type already exists",
+  "@unitTypeExists": {
+    "description": "Shown when the new type name is already used"
   }
 }

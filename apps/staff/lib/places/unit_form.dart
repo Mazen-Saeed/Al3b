@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../app_theme.dart';
 import '../data/money.dart';
 import '../data/price_category.dart';
 import '../data/unit.dart';
+import '../data/unit_types_provider.dart';
 import '../floor/floor_sections.dart';
 import '../l10n/l10n.dart';
 import '../shell/form_surface.dart';
 import '../shell/pill.dart';
+import 'unit_type_form.dart';
 
 /// What staff did in the unit form: the new values, or "delete this unit".
 class UnitFormResult {
@@ -47,7 +50,7 @@ Future<UnitFormResult?> showUnitForm(
 }) =>
     showFormSurface<UnitFormResult>(context, _UnitForm(heading: heading, categories: categories, unit: unit));
 
-class _UnitForm extends StatefulWidget {
+class _UnitForm extends ConsumerStatefulWidget {
   const _UnitForm({required this.heading, required this.categories, this.unit});
 
   final String heading;
@@ -55,10 +58,10 @@ class _UnitForm extends StatefulWidget {
   final Unit? unit;
 
   @override
-  State<_UnitForm> createState() => _UnitFormState();
+  ConsumerState<_UnitForm> createState() => _UnitFormState();
 }
 
-class _UnitFormState extends State<_UnitForm> {
+class _UnitFormState extends ConsumerState<_UnitForm> {
   late final _name = TextEditingController(text: widget.unit?.name);
   /// The chosen price category: the unit's own, else none yet (staff must pick one).
   late String? _categoryId = widget.categories.any((c) => c.id == widget.unit?.categoryId) ? widget.unit!.categoryId : null;
@@ -71,6 +74,15 @@ class _UnitFormState extends State<_UnitForm> {
   void dispose() {
     _name.dispose();
     super.dispose();
+  }
+
+  /// The owner adds a type of their own (foosball, VR...) and it gets picked.
+  Future<void> _addType() async {
+    final notifier = ref.read(unitTypesProvider.notifier); // before the await
+    final draft = await showUnitTypeForm(context);
+    if (draft == null) return;
+    final type = notifier.add(name: draft.name, iconKey: draft.iconKey, hasPairPrice: draft.hasPairPrice);
+    if (type != null && mounted) setState(() => _type = type);
   }
 
   PriceCategory? get _category => widget.categories.where((c) => c.id == _categoryId).firstOrNull;
@@ -128,12 +140,13 @@ class _UnitFormState extends State<_UnitForm> {
               spacing: 8,
               runSpacing: 8,
               children: [
-                for (final type in UnitType.values)
+                for (final type in ref.watch(unitTypesProvider))
                   Pill(
                     label: unitTypeName(type, l10n),
                     selected: _type == type,
                     onTap: () => setState(() => _type = type),
                   ),
+                Pill(key: const Key('new-unit-type'), label: '+ ${l10n.newDeviceType}', selected: false, onTap: _addType),
               ],
             ),
             const SizedBox(height: 18),
