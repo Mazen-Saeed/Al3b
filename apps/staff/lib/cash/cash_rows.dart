@@ -92,15 +92,16 @@ class MovementRow extends ConsumerWidget {
 
 /// A bill paid while the cash box was open.
 class BillRow extends StatelessWidget {
-  const BillRow({super.key, required this.bill, required this.who});
+  const BillRow({super.key, required this.bill, required this.who, this.onTap});
 
   final Bill bill;
   final String who;
+  final VoidCallback? onTap; // tap to correct the amount (only while its cash box is open)
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    return _Row(
+    final row = _Row(
       title: bill.isQuickSale ? l10n.navQuickSale : (bill.unitName ?? ''),
       lines: ['${methodLabel(l10n, bill.method)} · $who · ${friendlyTime(l10n, bill.endedAt)}'],
       // Cash goes into the drawer (green +). InstaPay and wallet do not: grey and tagged.
@@ -110,5 +111,6 @@ class BillRow extends StatelessWidget {
       amountColor: bill.method == PaymentMethod.cash ? AppColors.free : AppColors.textMuted,
       tag: bill.method == PaymentMethod.cash ? null : l10n.outsideDrawer,
     );
+    return onTap == null ? row : GestureDetector(behavior: HitTestBehavior.opaque, onTap: onTap, child: row);
   }
 }

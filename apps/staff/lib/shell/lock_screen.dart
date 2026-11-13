@@ -6,6 +6,7 @@ import '../app_theme.dart';
 import '../data/money.dart';
 import '../data/staff_member.dart';
 import '../data/staff_provider.dart';
+import '../floor/time_text.dart';
 import '../l10n/l10n.dart';
 import 'pill.dart';
 
@@ -38,6 +39,7 @@ class _LockScreenState extends ConsumerState<LockScreen> {
   StaffMember? _who; // null = still choosing a name
   String _typed = '';
   bool _wrong = false;
+  Duration? _lockedFor; // set when too many wrong tries: how long to wait
   final _focus = FocusNode(); // keeps the keyboard listening after the name buttons disappear
 
   @override
@@ -54,11 +56,12 @@ class _LockScreenState extends ConsumerState<LockScreen> {
     });
     if (_typed.length == _pinLength) {
       // Read the notifier before anything else; if the PIN is right this screen is replaced.
-      final ok = ref.read(currentStaffIdProvider.notifier).unlock(_who!.id, _typed);
-      if (!ok) {
+      final result = ref.read(currentStaffIdProvider.notifier).unlock(_who!.id, _typed);
+      if (!result.signedIn) {
         setState(() {
           _typed = '';
           _wrong = true;
+          _lockedFor = result.outcome == UnlockOutcome.lockedOut ? result.retryAfter : null;
         });
       }
     }
@@ -91,7 +94,7 @@ class _LockScreenState extends ConsumerState<LockScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    final staff = ref.watch(initialStaffProvider);
+    final staff = ref.watch(staffProvider);
     return Focus(
       focusNode: _focus,
       autofocus: true,
@@ -127,7 +130,7 @@ class _LockScreenState extends ConsumerState<LockScreen> {
           spacing: 10,
           runSpacing: 12,
           children: [
-            for (final s in staff)
+            for (final s in staff.where((s) => s.active))
               Pill(label: s.name, selected: false, onTap: () {
                 setState(() => _who = s);
                 _focus.requestFocus();
@@ -167,7 +170,11 @@ class _LockScreenState extends ConsumerState<LockScreen> {
           height: 32,
           child: Center(
             child: _wrong
-                ? Text(l10n.wrongPin, style: const TextStyle(color: AppColors.waitingPayment))
+                ? Text(
+                    _lockedFor == null ? l10n.wrongPin : l10n.pinLockedOut(playedText(l10n, _lockedFor!)),
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(color: AppColors.waitingPayment),
+                  )
                 : null,
           ),
         ),

@@ -8,4 +8,10 @@ class PaymentAccount {
 
   /// What is written out under the QR for people to type if the scan fails.
   List<String> get typeable => [?handle, ?phone];
+
+  @override
+  bool operator ==(Object other) => other is PaymentAccount && other.link == link && other.handle == handle && other.phone == phone;
+
+  @override
+  int get hashCode => Object.hash(link, handle, phone);
 }

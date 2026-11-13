@@ -69,11 +69,12 @@ class Catalog {
   bool isInternal(StockItem item) => !products.any((p) => p.stockItemId == item.id);
 }
 
-/// Where the menu and stock come from when the app starts. Sample data for now; local SQLite later.
-/// Tests replace it to start from their own data.
-final initialCatalogProvider = Provider<Catalog>(
-  (ref) => const Catalog(products: sampleProducts, stockItems: sampleStockItems),
-);
+/// The sample menu and stock: what the first run starts with until the setup wizard exists.
+const sampleCatalog = Catalog(products: sampleProducts, stockItems: sampleStockItems);
+
+/// Where the menu and stock come from when the app starts: loaded from the database at startup
+/// (see main.dart). Tests replace it to start from their own data.
+final initialCatalogProvider = Provider<Catalog>((ref) => sampleCatalog);
 
 /// The menu and stock, and the actions that change them.
 class CatalogNotifier extends Notifier<Catalog> {

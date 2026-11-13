@@ -153,6 +153,15 @@ void main() {
       expect(single2.costAt(at(90)), 2500 + 3500 + 2500); // 30 more min single at 50 = 25, total 85
     });
 
+    test('stretches are added up first and rounded once: 20 min at 50 + 20 min at 70 is 40, not 16 + 23', () {
+      final t0 = DateTime(2026, 1, 1, 20);
+      final single = testUnit(status: UnitStatus.running, hourly: 50, multi: 70, startedAt: t0);
+
+      final pair = single.withModeSwitched(t0.add(const Duration(minutes: 20)));
+
+      expect(pair.costAt(t0.add(const Duration(minutes: 40))), 4000);
+    });
+
     test('switching is ignored without a pair price, and switching back works', () {
       final c = makeContainer(units: [running(multi: null)]);
       c.read(unitsProvider.notifier).switchMode('u1');
@@ -180,7 +189,30 @@ void main() {
       expect(resumed.stoppedAt, isNull);
       expect(resumed.amountDue, isNull);
       expect(resumed.currentCost, 2500);
-      expect(resumed.originalStart, stopped.startedAt); // the session keeps its identity (the alerts rely on it)
+      expect(resumed.startedAt, stopped.startedAt); // the start never moves: it is the session's identity (the alerts rely on it)
+      expect(resumed.parts.single.to, stopped.stoppedAt); // the stopped stretch is closed where it stopped
+    });
+
+    test('starting a session gives it an id, and a move keeps that id', () {
+      final c = makeContainer(units: [testUnit(id: 'u1', hourly: 50), testUnit(id: 'u2', hourly: 80)]);
+      c.read(unitsProvider.notifier).startSession('u1', isMulti: false);
+      final id = unitOf(c, 'u1').sessionId;
+      expect(id, isNotNull);
+
+      c.read(unitsProvider.notifier).moveSession('u1', 'u2');
+
+      expect(unitOf(c, 'u2').sessionId, id);
+    });
+
+    test('a move keeps the old device and its price as a finished stretch', () {
+      final c = makeContainer(units: [running(), testUnit(id: 'u2', hourly: 80)]);
+
+      c.read(unitsProvider.notifier).moveSession('u1', 'u2');
+
+      final part = unitOf(c, 'u2').parts.single;
+      expect(part.unitId, 'u1');
+      expect(part.hourlyPrice, 5000);
+      expect(part.isMulti, isFalse);
     });
 
     test('moving a session charges the old price so far and the new price after, and takes the orders along', () {
@@ -710,7 +742,7 @@ void main() {
       expect(unitOf(c, 'busy').hourlyPrice, 7000);
     });
 
-    test('a category gives the pair price only to the kinds that can have one', () {
+    test('a category gives its pair price to every unit that uses it, and none if it has none', () {
       final c = makeContainer(units: [
         Unit(id: 'bil', name: 'bil', type: UnitType.billiards, roomId: 'r1', roomName: 'r', categoryId: 'cat-ps5', status: UnitStatus.free, hourlyPrice: 1),
       ]);
@@ -718,6 +750,10 @@ void main() {
       c.read(categoriesProvider.notifier).update('cat-ps5', name: 'x', hourlyPrice: 5000, multiHourlyPrice: 7000);
 
       expect(unitOf(c, 'bil').hourlyPrice, 5000);
+      expect(unitOf(c, 'bil').multiHourlyPrice, 7000);
+
+      c.read(categoriesProvider.notifier).update('cat-ps5', name: 'x', hourlyPrice: 5000);
+
       expect(unitOf(c, 'bil').multiHourlyPrice, isNull);
     });
 

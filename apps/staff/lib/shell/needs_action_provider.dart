@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../data/activity_log.dart';
 import '../data/cash_box_provider.dart';
 import '../data/catalog_provider.dart';
 import '../data/clock_provider.dart';
@@ -12,16 +13,16 @@ import 'nav_provider.dart';
 /// the person already looked at.
 /// - Floor: a session waiting for payment, or past its time.
 /// - Shift (Admin): money the shop owes someone.
-/// - Manage (Admin): an item running low in stock.
+/// - Manage (Admin): an item running low in stock, or a risky line in the activity log from the last day.
 final needsActionKeysProvider = Provider<Map<int, Set<String>>>((ref) {
-  ref.watch(clockProvider); // a session's time can run out at any second
+  final now = ref.watch(clockProvider); // a session's time can run out at any second
   final isAdmin = ref.watch(currentStaffProvider)?.isAdmin ?? false;
   final units = ref.watch(unitsProvider);
   return {
     NavPage.floor: {
       for (final u in units)
         if (u.status == UnitStatus.waitingPayment || (u.status == UnitStatus.running && u.isOvertime))
-          '${u.id}:${u.status.name}:${(u.originalStart ?? u.startedAt)?.millisecondsSinceEpoch}',
+          '${u.id}:${u.status.name}:${u.startedAt?.millisecondsSinceEpoch}',
     },
     NavPage.shift: {
       if (isAdmin)
@@ -32,6 +33,10 @@ final needsActionKeysProvider = Provider<Map<int, Set<String>>>((ref) {
       if (isAdmin)
         for (final s in ref.watch(catalogProvider).stockItems)
           if (s.isLow) s.id,
+      // Only recent lines: older ones were seen in an earlier run (what was seen is not saved).
+      if (isAdmin)
+        for (final e in ref.watch(activityLogProvider))
+          if (e.suspicious && now.difference(e.at) < const Duration(days: 1)) 'activity:${e.id}',
     },
   };
 });

@@ -12,4 +12,8 @@ public class StaffVenue : SyncedEntity
     public Venue Venue { get; set; } = null!;
 
     public Role Role { get; set; }
+
+    // The owner of the shop: an Admin who can also add or remove Admins, see the subscription and
+    // transfer or delete the shop (decision #63). One per venue.
+    public bool IsOwner { get; set; }
 }

@@ -354,7 +354,7 @@ void _placesTests() {
       expect(tester.takeException(), isNull);
     });
 
-    testWidgets('the pair price is only offered for kinds that have one at $name width', (tester) async {
+    testWidgets('the pair price comes from the price category, not the device type at $name width', (tester) async {
       await openPlaces(tester);
       await tester.ensureVisible(find.text(l10n.newDevice).first);
       await tester.tap(find.text(l10n.newDevice).first);
@@ -362,13 +362,14 @@ void _placesTests() {
 
       await tester.tap(find.text('PS5 عادي')); // a category with a pair price
       await tester.pump(const Duration(milliseconds: 100));
-      expect(find.text('${l10n.pricePerHour('50')} · ${l10n.pricePerHour('70')}'), findsOneWidget); // PlayStation: single and pair
-      await tester.tap(find.text(l10n.typeBilliards));
+      expect(find.text('${l10n.pricePerHour('50')} · ${l10n.pricePerHour('70')}'), findsOneWidget);
+      await tester.tap(find.text(l10n.typeBilliards)); // changing the type changes nothing
       await tester.pump(const Duration(milliseconds: 100));
-      expect(find.text(l10n.pricePerHour('50')), findsOneWidget); // billiards: one price only
-      await tester.tap(find.text(l10n.typePingPong));
+      expect(find.text('${l10n.pricePerHour('50')} · ${l10n.pricePerHour('70')}'), findsOneWidget);
+      await tester.ensureVisible(find.text('بلياردو عادي'));
+      await tester.tap(find.text('بلياردو عادي')); // a category with one price only
       await tester.pump(const Duration(milliseconds: 100));
-      expect(find.text('${l10n.pricePerHour('50')} · ${l10n.pricePerHour('70')}'), findsOneWidget); // ping pong has a pair price too
+      expect(find.text(l10n.pricePerHour('60')), findsOneWidget);
       expect(tester.takeException(), isNull);
     });
 

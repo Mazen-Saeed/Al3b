@@ -6,7 +6,9 @@ public class Staff : SyncedEntity
 {
     public required string Name { get; set; }
     public required string Phone { get; set; }
-    public required string PasswordHash { get; set; }
+    // Owners and Admins sign in from their phones with a password (decision #67). A plain Staff member works
+    // only on the shop device with a PIN, so has no password. Null = no password.
+    public string? PasswordHash { get; set; }
 
     // Short PIN for switching staff quickly on the shared shop device (shift change). Null = not set yet.
     public string? PinHash { get; set; }

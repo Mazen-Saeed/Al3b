@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../app_theme.dart';
 import '../cash/ensure_open.dart';
 import '../data/bills_provider.dart';
+import '../data/cancel_session.dart';
 import '../data/catalog_provider.dart';
 import '../data/clock_provider.dart';
 import '../data/orders_provider.dart';
@@ -15,6 +16,7 @@ import '../l10n/l10n.dart';
 import 'add_order.dart';
 import 'add_time.dart';
 import 'bill_widgets.dart';
+import 'cancel_session_form.dart';
 import 'checkout.dart';
 import 'move_session.dart';
 import 'time_text.dart';
@@ -56,21 +58,42 @@ class SessionPanel extends ConsumerWidget {
     if (quantities != null) orders.addOrder(unit.id, quantities);
   }
 
+  Future<void> _cancel(BuildContext context, WidgetRef ref, Unit unit) async {
+    final cancel = ref.read(sessionCancelProvider);
+    final reason = await showCancelSession(
+      context,
+      unit,
+      uncollected: cancel.uncollected(unit.id),
+      needsReason: cancel.needsReason(unit.id),
+    );
+    if (reason == null) return;
+    cancel.cancel(unit.id, reason: reason);
+    onClose(); // the unit is free now
+  }
+
   Future<void> _checkout(BuildContext context, WidgetRef ref, Unit unit) async {
     // No payment without an open cash box: ask staff to open one first.
     if (!await ensureCashBoxOpen(context, ref)) return;
     if (!context.mounted) return;
-    // Freeze the clock now: the form shows, and the bill saves, the amount at this moment.
-    final endedAt = DateTime.now();
+    // Checkout stops the clock first, then asks for the payment: the form shows, and the bill saves, the
+    // amount at that moment. A unit that is already stopped keeps the time it stopped at.
+    final units = ref.read(unitsProvider.notifier);
+    final wasRunning = unit.status == UnitStatus.running;
+    final endedAt = unit.stoppedAt ?? DateTime.now();
+    if (wasRunning) units.stopClock(unit.id, at: endedAt);
     final bills = ref.read(billsProvider.notifier);
     final result = await showCheckout(
       context,
-      unit,
+      ref.read(unitsProvider).byId(unit.id), // the stopped unit
       ref.read(ordersProvider).forUnit(unit.id),
       endedAt,
       paymentAccounts: ref.read(paymentAccountsProvider),
     );
-    if (result == null) return;
+    if (result == null) {
+      // Cancelled: the customer plays on. The time spent in the form is not charged.
+      if (wasRunning) units.resumeClock(unit.id);
+      return;
+    }
     bills.endAndPay(
       unit.id,
       endedAt: endedAt,
@@ -102,6 +125,7 @@ class SessionPanel extends ConsumerWidget {
               onAddOrder: () => _addOrder(context, ref, unit),
               onCheckout: () => _checkout(context, ref, unit),
               onMove: () => _move(context, ref, unit),
+              onCancel: () => _cancel(context, ref, unit),
               onSwitchMode: () => ref.read(unitsProvider.notifier).switchMode(unit.id),
               onStop: () => ref.read(unitsProvider.notifier).stopClock(unit.id),
               onResume: () => ref.read(unitsProvider.notifier).resumeClock(unit.id),
@@ -130,6 +154,7 @@ class _RunningSession extends StatelessWidget {
     required this.onAddOrder,
     required this.onCheckout,
     required this.onMove,
+    required this.onCancel,
     required this.onSwitchMode,
     required this.onStop,
     required this.onResume,
@@ -144,6 +169,7 @@ class _RunningSession extends StatelessWidget {
   final VoidCallback onAddOrder;
   final VoidCallback onCheckout;
   final VoidCallback onMove; // the session goes to another free unit
+  final VoidCallback onCancel; // nobody pays: the session is thrown away, and written to the log
   final VoidCallback onSwitchMode; // single <-> pair
   final VoidCallback onStop; // stop the clock, wait for payment
   final VoidCallback onResume; // the clock runs again
@@ -346,6 +372,11 @@ class _RunningSession extends StatelessWidget {
           onPressed: onCheckout,
           style: FilledButton.styleFrom(minimumSize: const Size(0, 60)),
           child: Text(l10n.endAndPay, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w700)),
+        ),
+        TextButton(
+          key: const Key('cancel-session'),
+          onPressed: onCancel,
+          child: Text(l10n.cancelSession, style: const TextStyle(color: AppColors.textMuted)),
         ),
       ],
     );

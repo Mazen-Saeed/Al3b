@@ -7,6 +7,8 @@ import '../data/staff_provider.dart';
 import '../l10n/app_language.dart';
 import '../l10n/l10n.dart';
 import '../shell/pill.dart';
+import 'backup_section.dart';
+import 'payment_accounts_section.dart';
 
 /// The Settings page (its own place in the nav). Only the language for now; the shop's rules (#38) will be added here.
 class SettingsScreen extends ConsumerWidget {
@@ -17,8 +19,8 @@ class SettingsScreen extends ConsumerWidget {
     final l10n = context.l10n;
     final language = ref.watch(appLanguageProvider).languageCode;
     final languages = ref.read(appLanguageProvider.notifier);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+    // A ListView, not a Column: with the payment accounts and the backups the page is taller than a small screen.
+    return ListView(
       children: [
         Text(l10n.settingsTitle, style: AppText.formTitle),
         const SizedBox(height: 18),
@@ -44,6 +46,10 @@ class SettingsScreen extends ConsumerWidget {
             value: ref.watch(showExpectedCashProvider),
             onChanged: ref.read(showExpectedCashProvider.notifier).set,
           ),
+          const SizedBox(height: 26),
+          const PaymentAccountsSection(),
+          const SizedBox(height: 26),
+          const BackupSection(),
         ],
       ],
     );

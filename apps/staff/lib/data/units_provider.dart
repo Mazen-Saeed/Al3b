@@ -24,6 +24,7 @@ class UnitsNotifier extends Notifier<List<Unit>> {
     _replace(state.byId(unitId).copyWith(
       status: UnitStatus.running,
       startedAt: DateTime.now(),
+      sessionId: newId(),
       isMulti: isMulti,
       plannedMinutes: plannedMinutes,
     ));
@@ -50,11 +51,11 @@ class UnitsNotifier extends Notifier<List<Unit>> {
   }
 
   /// Stops the clock: the price stops growing and the unit waits for payment. Ignored for a unit that
-  /// is not running.
-  void stopClock(String unitId) {
+  /// is not running. [at] is the moment it stopped (default: now).
+  void stopClock(String unitId, {DateTime? at}) {
     final unit = state.byId(unitId);
     if (unit.status != UnitStatus.running) return;
-    _replace(unit.asStopped(DateTime.now()));
+    _replace(unit.asStopped(at ?? DateTime.now()));
   }
 
   /// The customer is back: the clock runs again and the stopped time is not charged.
@@ -107,10 +108,10 @@ class UnitsNotifier extends Notifier<List<Unit>> {
     final moved = to.copyWith(
       status: UnitStatus.running,
       startedAt: from.startedAt,
-      originalStart: from.originalStart,
+      sessionId: from.sessionId,
       isMulti: from.isMulti && to.hasMultiMode,
       plannedMinutes: from.plannedMinutes,
-      carriedCost: from.costAt(now),
+      parts: [...from.parts, from.stretchUntil(now)], // the time on the old device, at its price
       rateFrom: now,
     );
     state = [

@@ -1,8 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'activity_log.dart';
 import 'bill.dart';
 import 'bills_provider.dart';
 import 'cash_box.dart';
+import 'expense_categories_provider.dart';
 import 'expense_category.dart';
 import 'ids.dart';
 import 'staff_provider.dart';
@@ -126,9 +128,19 @@ class CashBoxNotifier extends Notifier<CashBoxState> {
       paidFrom: paidFrom,
       owed: paidFrom == PaidFrom.pocket && !staff.isAdmin,
       purchaseId: purchaseId,
-      categoryId: type == CashMovementType.expense ? (categoryId ?? ExpenseCategoryIds.other) : null,
+      categoryId: type == CashMovementType.expense
+          ? (categoryId ?? idOfKind(ref.read(expenseCategoriesProvider), ExpenseCategoryKind.other))
+          : null,
     );
     state = CashBoxState(boxes: state.boxes, movements: [...state.movements, movement]);
+    if (type == CashMovementType.ownerWithdrawal) {
+      // Money leaving the shop is always written down; it tells the owner when someone else took it (#63).
+      ref.read(activityLogProvider.notifier).record(
+        ActivityKind.cashWithdrawal,
+        suspicious: !staff.isOwner,
+        details: {'amount': amount, 'note': note},
+      );
+    }
     return movement;
   }
 
@@ -140,7 +152,7 @@ class CashBoxNotifier extends Notifier<CashBoxState> {
     final total = owedItems.fold<int>(0, (sum, m) => sum + m.amount);
     if (total == 0) return 0;
     if (from == PaidFrom.cashBox) {
-      addMovement(CashMovementType.expense, total, note: note, categoryId: ExpenseCategoryIds.repayment); // checks the cash box is open and ours
+      addMovement(CashMovementType.expense, total, note: note, categoryId: idOfKind(ref.read(expenseCategoriesProvider), ExpenseCategoryKind.repayment)); // checks the cash box is open and ours
     }
     final now = DateTime.now();
     state = CashBoxState(
@@ -190,6 +202,11 @@ class CashBoxNotifier extends Notifier<CashBoxState> {
     state = CashBoxState(
       boxes: [for (final b in state.boxes) b.id == box.id ? closed : b],
       movements: state.movements,
+    );
+    ref.read(activityLogProvider.notifier).record(
+      ActivityKind.cashBoxClosed,
+      suspicious: (counted - closed.expectedCash!).abs() >= cashDifferenceLimit,
+      details: {'counted': counted, 'expected': closed.expectedCash},
     );
     return closed;
   }

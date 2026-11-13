@@ -1,7 +1,8 @@
-import 'money.dart';
 import 'price_category.dart';
+import 'session_part.dart';
 import 'unit_type.dart';
 
+export 'session_part.dart';
 export 'unit_type.dart';
 
 /// What a unit is doing right now. Each state looks different on the Floor screen.
@@ -9,8 +10,8 @@ enum UnitStatus { free, running, waitingPayment, maintenance }
 
 /// One rentable unit as the Floor screen needs it (PS5-1, Ping pong 1, Billiards 2...).
 ///
-/// This is screen data, not the database row: later it will be built from
-/// the local SQLite tables (units, sessions, sessions_units, reservations).
+/// This is screen data, not the database row: it is built from the local SQLite tables (units,
+/// sessions, sessions_units, ...) by the mapper in data/db/. Nothing outside data/db/ knows the tables.
 class Unit {
   const Unit({
     required this.id,
@@ -28,10 +29,10 @@ class Unit {
     this.nextReservationAt,
     this.note,
     this.amountDue,
-    this.carriedCost = 0,
+    this.sessionId,
+    this.parts = const [],
     this.rateFrom,
     this.stoppedAt,
-    this.originalStart,
   });
 
   final String id;
@@ -46,22 +47,36 @@ class Unit {
   final int hourlyPrice;
   final int? multiHourlyPrice; // null = no multi mode, don't ask "single or multi?"
 
-  final DateTime? startedAt; // set while running
+  final DateTime? startedAt; // when the session really began; set while it has one, never moves
   final bool isMulti;
   final int? plannedMinutes; // countdown length; null = open time (counts up)
   final DateTime? nextReservationAt; // upcoming booking, if any
   final String? note; // e.g. maintenance reason
   final int? amountDue; // set while waiting for payment: the play cost when the clock was stopped
 
-  // A session's price can change while it runs (moved to another device, single <-> pair). The time
-  // before the change is already worked out: [carriedCost] piasters. From [rateFrom] (null = the
-  // start) the current prices count. So the bill is the carried part plus the time since.
-  final int carriedCost;
-  final DateTime? rateFrom;
+  // A session is a list of finished stretches ([parts]) plus the stretch running now. A stretch ends
+  // when staff switch single/pair, move the session to another device, or stop the clock. Each part
+  // keeps its own device, mode and price, so the bill is just the parts added up plus the current stretch.
+  final String? sessionId; // the session's id (sessions.id); null only in sample data and tests
+  final List<SessionPart> parts; // finished stretches, oldest first
+  final DateTime? rateFrom; // the current stretch began here; null = [startedAt]
   final DateTime? stoppedAt; // the clock was stopped here (waiting for payment); null = running
-  // The real start of the session once a resume has moved [startedAt] forward. It tells one session
-  // from another (the alerts use it), so a resume does not look like a new session. Null = [startedAt].
-  final DateTime? originalStart;
+
+  /// Seconds x price over the finished stretches (the exact part of the bill, before rounding).
+  int get _carriedPriceSeconds => parts.fold(0, (sum, part) => sum + part.priceSeconds);
+
+  /// What the finished stretches cost, rounded down to whole pounds.
+  int get carriedCost => playCostOf(_carriedPriceSeconds);
+
+  /// Where the current stretch began.
+  DateTime? get _stretchStart => rateFrom ?? startedAt;
+
+  /// The price that applies to the current stretch.
+  int get _currentPrice => isMulti ? multiHourlyPrice! : hourlyPrice;
+
+  /// The current stretch closed at [to] (used when it ends: a switch, a move, a stop).
+  SessionPart stretchUntil(DateTime to) =>
+      SessionPart(unitId: id, isMulti: isMulti, hourlyPrice: _currentPrice, from: _stretchStart!, to: to);
 
   bool get hasMultiMode => multiHourlyPrice != null;
 
@@ -78,10 +93,10 @@ class Unit {
     bool? isMulti,
     int? plannedMinutes,
     bool makeOpen = false,
-    int? carriedCost,
+    String? sessionId,
+    List<SessionPart>? parts,
     DateTime? rateFrom,
     bool clearStopped = false, // the clock runs again: drops the stop time and the amount due
-    DateTime? originalStart,
   }) =>
       Unit(
         id: id,
@@ -100,10 +115,10 @@ class Unit {
         nextReservationAt: nextReservationAt,
         note: note,
         amountDue: clearStopped ? null : amountDue,
-        carriedCost: carriedCost ?? this.carriedCost,
+        sessionId: sessionId ?? this.sessionId,
+        parts: parts ?? this.parts,
         rateFrom: rateFrom ?? this.rateFrom,
         stoppedAt: clearStopped ? null : stoppedAt,
-        originalStart: originalStart ?? this.originalStart,
       );
 
   /// Same unit with a new name, type and prices (Places page). [multiHourlyPrice] null removes
@@ -131,10 +146,10 @@ class Unit {
         nextReservationAt: nextReservationAt,
         note: note,
         amountDue: amountDue,
-        carriedCost: carriedCost,
+        sessionId: sessionId,
+        parts: parts,
         rateFrom: rateFrom,
         stoppedAt: stoppedAt,
-        originalStart: originalStart,
       );
 
   /// Same unit priced from [category]: its hourly price, plus the pair price when this
@@ -143,7 +158,7 @@ class Unit {
         name: name,
         type: type,
         hourlyPrice: category.hourlyPrice,
-        multiHourlyPrice: type.hasPairPrice ? category.multiHourlyPrice : null,
+        multiHourlyPrice: category.multiHourlyPrice,
         categoryId: category.id,
       );
 
@@ -164,14 +179,19 @@ class Unit {
         nextReservationAt: nextReservationAt,
         note: note,
         amountDue: amountDue,
-        carriedCost: carriedCost,
+        sessionId: sessionId,
+        parts: parts,
         rateFrom: rateFrom,
         stoppedAt: stoppedAt,
-        originalStart: originalStart,
       );
 
   /// Time played until [now] (zero if not running).
-  Duration elapsedAt(DateTime now) => startedAt == null ? Duration.zero : _clockAt(now).difference(startedAt!);
+  Duration elapsedAt(DateTime now) {
+    final start = _stretchStart;
+    if (start == null) return Duration.zero;
+    final before = parts.fold(Duration.zero, (sum, part) => sum + part.duration);
+    return before + _clockAt(now).difference(start);
+  }
 
   /// The moment the clock shows: [now], or the stop time while it is stopped.
   DateTime _clockAt(DateTime now) => stoppedAt ?? now;
@@ -204,10 +224,9 @@ class Unit {
   /// the switch to piasters; whole ints only, no double). Checkout freezes [now] when it
   /// opens, so the amount on screen is exactly the amount saved in the bill.
   int costAt(DateTime now) {
-    final price = isMulti ? multiHourlyPrice! : hourlyPrice;
-    final since = rateFrom ?? startedAt;
+    final since = _stretchStart;
     final seconds = since == null ? 0 : _clockAt(now).difference(since).inSeconds;
-    return carriedCost + seconds * price ~/ (3600 * piastersPerPound) * piastersPerPound;
+    return playCostOf(_carriedPriceSeconds + seconds * _currentPrice); // rounded once, at the end
   }
 
   /// Play-time cost so far.
@@ -215,7 +234,7 @@ class Unit {
 
   /// The same session with the other mode (single <-> pair) from [now]: the time so far keeps the
   /// old price, the rest takes the new one.
-  Unit withModeSwitched(DateTime now) => copyWith(isMulti: !isMulti, carriedCost: costAt(now), rateFrom: now);
+  Unit withModeSwitched(DateTime now) => copyWith(isMulti: !isMulti, parts: [...parts, stretchUntil(now)], rateFrom: now);
 
   /// The clock stops at [now] and the unit waits for payment. The amount due is the play cost then.
   Unit asStopped(DateTime now) => Unit(
@@ -234,21 +253,22 @@ class Unit {
         nextReservationAt: nextReservationAt,
         note: note,
         amountDue: costAt(now),
-        carriedCost: carriedCost,
+        sessionId: sessionId,
+        parts: parts,
         rateFrom: rateFrom,
         stoppedAt: now,
-        originalStart: originalStart,
       );
 
-  /// The clock runs again at [now]: the stopped time is not counted (start and price moment move on).
+  /// The clock runs again at [now]. The stopped time is not charged: the stretch that was stopped is
+  /// closed where it stopped, and a new one begins now.
   Unit asResumed(DateTime now) {
-    final gap = now.difference(stoppedAt ?? now);
+    final stopped = stoppedAt;
+    if (stopped == null) return copyWith(status: UnitStatus.running, clearStopped: true);
     return copyWith(
       status: UnitStatus.running,
-      startedAt: startedAt?.add(gap),
-      rateFrom: rateFrom?.add(gap),
+      parts: [...parts, stretchUntil(stopped)],
+      rateFrom: now,
       clearStopped: true,
-      originalStart: originalStart ?? startedAt,
     );
   }
 

@@ -5,6 +5,7 @@ import '../cash/ensure_open.dart';
 import '../data/cash_box.dart';
 import '../data/cash_box_provider.dart';
 import '../data/catalog_provider.dart';
+import '../data/expense_categories_provider.dart';
 import '../data/expense_category.dart';
 import 'purchase_form.dart';
 
@@ -16,6 +17,7 @@ Future<void> buyStock(BuildContext context, WidgetRef ref) async {
   // Read everything that needs the widget before the first await: it may be gone after it.
   final catalog = ref.read(catalogProvider.notifier);
   final cash = ref.read(cashBoxProvider.notifier);
+  final stockCategoryId = idOfKind(ref.read(expenseCategoriesProvider), ExpenseCategoryKind.stock);
   final result = await showPurchaseForm(context, ref.read(catalogProvider).stockItems);
   if (result == null) return;
   if (result.paidFrom == PaidFrom.cashBox) {
@@ -28,7 +30,7 @@ Future<void> buyStock(BuildContext context, WidgetRef ref) async {
     CashMovementType.expense,
     purchase.total,
     purchaseId: purchase.id,
-    categoryId: ExpenseCategoryIds.stock,
+    categoryId: stockCategoryId,
     paidFrom: result.paidFrom,
   );
 }

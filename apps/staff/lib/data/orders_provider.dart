@@ -7,7 +7,7 @@ import 'product.dart';
 /// (Name, unit price and quantity are copied when ordering, so a later price change never changes an open bill.)
 class OrdersNotifier extends Notifier<Map<String, List<OrderLine>>> {
   @override
-  Map<String, List<OrderLine>> build() => const {};
+  Map<String, List<OrderLine>> build() => ref.watch(initialOrdersProvider);
 
   /// Adds products to a unit's bill. [quantities]: product id -> how many.
   /// Ordering a product that is already on the bill raises that line's quantity.
@@ -22,7 +22,13 @@ class OrdersNotifier extends Notifier<Map<String, List<OrderLine>>> {
       catalog.sellFromStock(productId, quantity);
       final index = lines.indexWhere((l) => l.productId == productId);
       if (index == -1) {
-        lines.add(OrderLine(productId: product.id, name: product.name, unitPrice: product.price, quantity: quantity));
+        lines.add(OrderLine(
+          productId: product.id,
+          name: product.name,
+          unitPrice: product.price,
+          quantity: quantity,
+          orderedAt: DateTime.now(),
+        ));
       } else {
         lines[index] = lines[index].withQuantity(lines[index].quantity + quantity);
       }
@@ -59,6 +65,10 @@ class OrdersNotifier extends Notifier<Map<String, List<OrderLine>>> {
     };
   }
 }
+
+/// The order lines of the running sessions when the app starts (loaded from the database at startup).
+/// Tests replace it to start from their own.
+final initialOrdersProvider = Provider<Map<String, List<OrderLine>>>((ref) => const {});
 
 final ordersProvider = NotifierProvider<OrdersNotifier, Map<String, List<OrderLine>>>(OrdersNotifier.new);
 

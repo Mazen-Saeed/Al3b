@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../activity/activity_screen.dart';
 import '../app_theme.dart';
+import '../data/staff_provider.dart';
 import '../expenses/expense_categories_screen.dart';
 import '../l10n/l10n.dart';
 import '../places/places_screen.dart';
 import '../prices/prices_screen.dart';
 import '../products/products_screen.dart';
+import '../staff/staff_screen.dart';
 
 /// The setup areas that open in place of the Manage list.
-enum ManageArea { products, places, prices, expenseCategories }
+enum ManageArea { products, places, prices, expenseCategories, staff, activity }
 
 /// Which area is open (null = the list). It lives in a provider, not inside the page, so the shell
 /// can close it when staff tap the Manage button in the nav.
@@ -26,8 +29,8 @@ final manageAreaProvider = NotifierProvider<ManageAreaNotifier, ManageArea?>(Man
 
 /// The Manage page ("الإدارة"): a list of setup areas. Tapping one shows it in place of the
 /// list (the nav stays visible); its back button, or the Manage button in the nav, returns here.
-/// Products (with its stock), Rooms and devices and Prices are built; staff and reports will be
-/// added to this list. Settings is not here: it has its own place in the nav.
+/// Products (with its stock), Rooms and devices, Prices, Expense categories, Staff and the Activity log (Admins only) are built;
+/// reports will be added to this list. Settings is not here: it has its own place in the nav.
 class ManageScreen extends ConsumerWidget {
   const ManageScreen({super.key});
 
@@ -46,12 +49,16 @@ class ManageScreen extends ConsumerWidget {
         return PricesScreen(onBack: areas.close);
       case ManageArea.expenseCategories:
         return ExpenseCategoriesScreen(onBack: areas.close);
+      case ManageArea.staff:
+        return StaffScreen(onBack: areas.close);
+      case ManageArea.activity:
+        return ActivityScreen(onBack: areas.close);
       case null:
         break;
     }
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+    // A ListView, not a Column: with Staff and Activity log the list is taller than a small screen.
+    return ListView(
       children: [
         Text(l10n.navManage, style: AppText.formTitle),
         const SizedBox(height: 18),
@@ -78,6 +85,20 @@ class ManageScreen extends ConsumerWidget {
           title: l10n.expenseCategoriesTitle,
           onTap: () => areas.open(ManageArea.expenseCategories),
         ),
+        if (ref.watch(currentStaffProvider)?.isAdmin ?? false) ...[
+          const SizedBox(height: 12),
+          _ManageEntry(
+            icon: Icons.badge_outlined,
+            title: l10n.staffTitle,
+            onTap: () => areas.open(ManageArea.staff),
+          ),
+          const SizedBox(height: 12),
+          _ManageEntry(
+            icon: Icons.history_rounded,
+            title: l10n.activityTitle,
+            onTap: () => areas.open(ManageArea.activity),
+          ),
+        ],
       ],
     );
   }

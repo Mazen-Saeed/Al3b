@@ -63,7 +63,8 @@ class _MovementFormState extends ConsumerState<_MovementForm> {
   }
 
   bool get _reasonNeeded => switch (widget.type) {
-        CashMovementType.expense => _categoryId == ExpenseCategoryIds.other,
+        CashMovementType.expense =>
+          _categoryId != null && _categoryId == idOfKind(ref.read(expenseCategoriesProvider), ExpenseCategoryKind.other),
         CashMovementType.ownerWithdrawal => true,
         CashMovementType.cashIn => false,
       };

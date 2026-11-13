@@ -43,7 +43,7 @@ class _SessionAlertsState extends ConsumerState<SessionAlerts> {
       Duration? smallest;
       for (final threshold in _thresholds) {
         if (remaining > threshold) continue; // not reached yet
-        final start = (unit.originalStart ?? unit.startedAt!).millisecondsSinceEpoch; // a resume does not change it
+        final start = unit.startedAt!.millisecondsSinceEpoch; // a resume does not change it
         final key = '${unit.id}:$start:${unit.plannedMinutes}:${threshold.inSeconds}';
         // Set.add returns true only if the key was new. So this is "first time we see it".
         if (_alerted.add(key)) smallest = threshold;

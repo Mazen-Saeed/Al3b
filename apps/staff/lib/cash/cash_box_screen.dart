@@ -73,7 +73,7 @@ class _CashBoxScreenState extends ConsumerState<CashBoxScreen> {
     final state = ref.watch(cashBoxProvider);
     ref.watch(billsProvider); // redraws the expected amount when a payment comes in
     final canHandle = ref.read(cashBoxProvider.notifier).canHandle;
-    final staff = ref.watch(initialStaffProvider);
+    final staff = ref.watch(staffProvider);
     final isAdmin = ref.watch(currentStaffProvider)?.isAdmin ?? false;
     final showExpected = isAdmin || ref.watch(showExpectedCashProvider);
     String nameOf(String id) => staff.where((s) => s.id == id).map((s) => s.name).firstOrNull ?? '';

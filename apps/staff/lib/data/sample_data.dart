@@ -1,5 +1,6 @@
-import 'bill.dart';
+import 'ids.dart';
 import 'payment_account.dart';
+import 'pin_hasher.dart';
 import 'product.dart';
 import 'staff_member.dart';
 import 'stock.dart';
@@ -8,25 +9,29 @@ import 'unit.dart';
 /// Sample venue name (owners type their own in Venue setup).
 const sampleVenueName = 'سوبر ماريو مصر الجديدة';
 
-/// Sample payment accounts (the owner's own; real ones come from venue settings later).
-const samplePaymentAccounts = {
-  PaymentMethod.instapay: PaymentAccount(
-    link: 'https://ipn.eg/S/mazenncib/instapay/3iCKbo',
-    handle: 'mazenncib@instapay',
-    phone: '01098626879',
-  ),
-  PaymentMethod.wallet: PaymentAccount(
-    link: 'http://vf.eg/vfcash?id=mt&qrId=hSkXDs',
-    phone: '01098626879',
-  ),
-};
+/// Sample payment accounts (the owner's own, for the sample shop and tests only: a real shop starts with none
+/// and its owner fills them in under Settings).
+const sampleInstapay = PaymentAccount(
+  link: 'https://ipn.eg/S/mazenncib/instapay/3iCKbo',
+  handle: 'mazenncib@instapay',
+  phone: '01098626879',
+);
+const sampleWallet = PaymentAccount(
+  link: 'http://vf.eg/vfcash?id=mt&qrId=hSkXDs',
+  phone: '01098626879',
+);
 
 /// Sample staff (the owner adds the real ones later). PINs are sample values.
-List<StaffMember> buildSampleStaff() => const [
-      StaffMember(id: 'staff-1', name: 'مازن', pin: '1234', isAdmin: true),
-      StaffMember(id: 'staff-2', name: 'أحمد', pin: '1111'),
-      StaffMember(id: 'staff-3', name: 'منى', pin: '2222'),
-    ];
+/// Only a few hashing rounds here: this runs for every test and the PINs are not secret. A real
+/// PIN (first-run setup) gets the full PinHasher cost.
+List<StaffMember> buildSampleStaff() {
+  const hasher = PinHasher(iterations: 10);
+  return [
+    StaffMember(id: 'staff-1', name: 'مازن', pinHash: hasher.hash('1234'), isAdmin: true, isOwner: true),
+    StaffMember(id: 'staff-2', name: 'أحمد', pinHash: hasher.hash('1111')),
+    StaffMember(id: 'staff-3', name: 'منى', pinHash: hasher.hash('2222')),
+  ];
+}
 
 /// Sample connection state (comes from the sync service later).
 const sampleIsOnline = true;
@@ -39,19 +44,19 @@ List<Unit> buildSampleUnits() {
 
   return [
     // Two halls
-    Unit(id: 'ps5-1', name: 'PS5-1', type: UnitType.playstation, roomId: 'hall-1', roomName: 'صالة 1', categoryId: 'cat-ps5', status: UnitStatus.running, hourlyPrice: 5000, multiHourlyPrice: 7000, startedAt: ago(1, 24, 10)),
-    Unit(id: 'ps5-2', name: 'PS5-2', type: UnitType.playstation, roomId: 'hall-1', roomName: 'صالة 1', categoryId: 'cat-ps5', status: UnitStatus.running, hourlyPrice: 5000, multiHourlyPrice: 7000, startedAt: ago(0, 47, 33), isMulti: true, plannedMinutes: 60),
+    Unit(id: 'ps5-1', name: 'PS5-1', type: UnitType.playstation, roomId: 'hall-1', roomName: 'صالة 1', categoryId: 'cat-ps5', status: UnitStatus.running, hourlyPrice: 5000, multiHourlyPrice: 7000, sessionId: newId(), startedAt: ago(1, 24, 10)),
+    Unit(id: 'ps5-2', name: 'PS5-2', type: UnitType.playstation, roomId: 'hall-1', roomName: 'صالة 1', categoryId: 'cat-ps5', status: UnitStatus.running, hourlyPrice: 5000, multiHourlyPrice: 7000, sessionId: newId(), startedAt: ago(0, 47, 33), isMulti: true, plannedMinutes: 60),
     Unit(id: 'ps5-3', name: 'PS5-3', type: UnitType.playstation, roomId: 'hall-1', roomName: 'صالة 1', categoryId: 'cat-ps5', status: UnitStatus.free, hourlyPrice: 5000, multiHourlyPrice: 7000, nextReservationAt: now.add(const Duration(hours: 1, minutes: 20))),
-    Unit(id: 'ps5-4', name: 'PS5-4', type: UnitType.playstation, roomId: 'hall-2', roomName: 'صالة 2', categoryId: 'cat-ps5', status: UnitStatus.running, hourlyPrice: 5000, multiHourlyPrice: 7000, startedAt: ago(0, 59, 10), plannedMinutes: 60, nextReservationAt: now.add(const Duration(minutes: 15))),
-    Unit(id: 'ps4-1', name: 'PS4-1', type: UnitType.playstation, roomId: 'hall-2', roomName: 'صالة 2', categoryId: 'cat-ps4', status: UnitStatus.waitingPayment, hourlyPrice: 6000, multiHourlyPrice: 8000, startedAt: ago(1, 10, 0), stoppedAt: ago(0, 2, 0), amountDue: 6800),
+    Unit(id: 'ps5-4', name: 'PS5-4', type: UnitType.playstation, roomId: 'hall-2', roomName: 'صالة 2', categoryId: 'cat-ps5', status: UnitStatus.running, hourlyPrice: 5000, multiHourlyPrice: 7000, sessionId: newId(), startedAt: ago(0, 59, 10), plannedMinutes: 60, nextReservationAt: now.add(const Duration(minutes: 15))),
+    Unit(id: 'ps4-1', name: 'PS4-1', type: UnitType.playstation, roomId: 'hall-2', roomName: 'صالة 2', categoryId: 'cat-ps4', status: UnitStatus.waitingPayment, hourlyPrice: 6000, multiHourlyPrice: 8000, sessionId: newId(), startedAt: ago(1, 10, 0), stoppedAt: ago(0, 2, 0), amountDue: 6800),
     const Unit(id: 'ps4-2', name: 'PS4-2', type: UnitType.playstation, roomId: 'hall-2', roomName: 'صالة 2', categoryId: 'cat-ps4', status: UnitStatus.maintenance, hourlyPrice: 6000, multiHourlyPrice: 8000, note: 'جهاز بايظ'),
     // Table room
-    Unit(id: 'pp-1', name: 'بينج بونج 1', type: UnitType.pingPong, roomId: 'tables', roomName: 'ترابيزات البينج والبلياردو', categoryId: 'cat-pingpong', status: UnitStatus.running, hourlyPrice: 4000, multiHourlyPrice: 6000, startedAt: ago(0, 32, 10), isMulti: true),
+    Unit(id: 'pp-1', name: 'بينج بونج 1', type: UnitType.pingPong, roomId: 'tables', roomName: 'ترابيزات البينج والبلياردو', categoryId: 'cat-pingpong', status: UnitStatus.running, hourlyPrice: 4000, multiHourlyPrice: 6000, sessionId: newId(), startedAt: ago(0, 32, 10), isMulti: true),
     const Unit(id: 'pp-2', name: 'بينج بونج 2', type: UnitType.pingPong, roomId: 'tables', roomName: 'ترابيزات البينج والبلياردو', categoryId: 'cat-pingpong', status: UnitStatus.free, hourlyPrice: 4000, multiHourlyPrice: 6000),
-    Unit(id: 'bil-1', name: 'بلياردو 1', type: UnitType.billiards, roomId: 'tables', roomName: 'ترابيزات البينج والبلياردو', categoryId: 'cat-billiards', status: UnitStatus.running, hourlyPrice: 6000, startedAt: ago(1, 5, 0), plannedMinutes: 60),
+    Unit(id: 'bil-1', name: 'بلياردو 1', type: UnitType.billiards, roomId: 'tables', roomName: 'ترابيزات البينج والبلياردو', categoryId: 'cat-billiards', status: UnitStatus.running, hourlyPrice: 6000, sessionId: newId(), startedAt: ago(1, 5, 0), plannedMinutes: 60),
     const Unit(id: 'bil-2', name: 'بلياردو 2', type: UnitType.billiards, roomId: 'tables', roomName: 'ترابيزات البينج والبلياردو', categoryId: 'cat-billiards', status: UnitStatus.free, hourlyPrice: 6000),
     // Private rooms (one unit each)
-    Unit(id: 'ps5-5', name: 'PS5-5', type: UnitType.playstation, roomId: 'vip-1', roomName: 'VIP 1', categoryId: 'cat-vip', status: UnitStatus.running, hourlyPrice: 9000, multiHourlyPrice: 12000, startedAt: ago(0, 5, 12), isMulti: true),
+    Unit(id: 'ps5-5', name: 'PS5-5', type: UnitType.playstation, roomId: 'vip-1', roomName: 'VIP 1', categoryId: 'cat-vip', status: UnitStatus.running, hourlyPrice: 9000, multiHourlyPrice: 12000, sessionId: newId(), startedAt: ago(0, 5, 12), isMulti: true),
     const Unit(id: 'ps5-6', name: 'PS5-6', type: UnitType.playstation, roomId: 'vip-2', roomName: 'VIP 2', categoryId: 'cat-vip', status: UnitStatus.free, hourlyPrice: 9000, multiHourlyPrice: 12000),
   ];
 }

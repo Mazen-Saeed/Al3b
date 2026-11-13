@@ -10,5 +10,8 @@ public class StaffVenueConfiguration : IEntityTypeConfiguration<StaffVenue>
     {
         // A staff member has one role per venue.
         builder.HasIndex(sv => new { sv.StaffId, sv.VenueId }).IsUnique().HasFilter("deleted_at IS NULL");
+
+        // A venue has one owner.
+        builder.HasIndex(sv => sv.VenueId).IsUnique().HasFilter("is_owner AND deleted_at IS NULL").HasDatabaseName("ix_staff_venues_one_owner");
     }
 }

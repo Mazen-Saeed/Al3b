@@ -19,7 +19,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.MapGet("/venues", async (AppDbContext db) =>
-    await db.Venues.ToListAsync());
+// No data endpoint is public. /venues used to return every shop's row (owner phone, payment links)
+// to anyone; it is gone until sign-in exists and each endpoint checks who is asking.
+app.MapGet("/health", () => Results.Ok());
 
 app.Run();

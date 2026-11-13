@@ -32,6 +32,8 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<CashMovement> CashMovements => Set<CashMovement>();
     public DbSet<RemoteCommand> RemoteCommands => Set<RemoteCommand>();
     public DbSet<Device> Devices => Set<Device>();
+    public DbSet<ExpenseCategory> ExpenseCategories => Set<ExpenseCategory>();
+    public DbSet<ActivityLogEntry> ActivityLogEntries => Set<ActivityLogEntry>();
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {
@@ -49,6 +51,9 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
         configurationBuilder.Properties<RemoteCommandStatus>().HaveConversion<string>();
         configurationBuilder.Properties<DevicePlatform>().HaveConversion<string>();
         configurationBuilder.Properties<StockMovementKind>().HaveConversion<string>();
+        configurationBuilder.Properties<PricingMode>().HaveConversion<string>();
+        configurationBuilder.Properties<PaidFrom>().HaveConversion<string>();
+        configurationBuilder.Properties<ExpenseCategoryKind>().HaveConversion<string>();
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../app_theme.dart';
 import '../data/clock_provider.dart';
 import '../data/unit.dart';
 import '../data/units_provider.dart';
@@ -70,7 +71,21 @@ class _FloorScreenState extends ConsumerState<FloorScreen> {
           onSelectionChanged: (selection) => setState(() => _byType = selection.first),
         ),
         const SizedBox(height: 16),
-        Expanded(
+        if (units.isEmpty)
+          Expanded(
+            child: Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(l10n.emptyFloorTitle, style: AppText.formTitle, textAlign: TextAlign.center),
+                  const SizedBox(height: 8),
+                  Text(l10n.emptyFloorHint, style: AppText.label, textAlign: TextAlign.center),
+                ],
+              ),
+            ),
+          )
+        else
+          Expanded(
           // Only this part scrolls; header, nav and panel stay in place.
           child: SingleChildScrollView(
             child: Column(

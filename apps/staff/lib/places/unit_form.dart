@@ -79,9 +79,9 @@ class _UnitFormState extends ConsumerState<_UnitForm> {
   /// The owner adds a type of their own (foosball, VR...) and it gets picked.
   Future<void> _addType() async {
     final notifier = ref.read(unitTypesProvider.notifier); // before the await
-    final draft = await showUnitTypeForm(context);
+    final draft = await showUnitTypeForm(context); // the name the owner typed
     if (draft == null) return;
-    final type = notifier.add(name: draft.name, iconKey: draft.iconKey, hasPairPrice: draft.hasPairPrice);
+    final type = notifier.add(draft);
     if (type != null && mounted) setState(() => _type = type);
   }
 
@@ -89,7 +89,7 @@ class _UnitFormState extends ConsumerState<_UnitForm> {
 
   bool get _canSave => _name.text.trim().isNotEmpty && (_busy || _category != null);
 
-  /// The unit's prices from the chosen category: pair price only for the kinds that can have one.
+  /// The unit's prices from the chosen category (the pair price only if the category has one).
   UnitFormResult _result() {
     final category = _category;
     if (category == null) {
@@ -101,15 +101,15 @@ class _UnitFormState extends ConsumerState<_UnitForm> {
       name: _name.text.trim(),
       type: _type,
       hourlyPrice: category.hourlyPrice,
-      multiHourlyPrice: _type.hasPairPrice ? category.multiHourlyPrice : null,
+      multiHourlyPrice: category.multiHourlyPrice,
       categoryId: category.id,
     );
   }
 
-  /// "50 جنيه في الساعة · 70 جنيه في الساعة", only what this kind of unit uses.
+  /// "50 جنيه في الساعة · 70 جنيه في الساعة", the category's prices.
   String _priceSummary(AppLocalizations l10n, PriceCategory category) => [
         l10n.pricePerHour(formatMoney(category.hourlyPrice)),
-        if (_type.hasPairPrice && category.multiHourlyPrice != null) l10n.pricePerHour(formatMoney(category.multiHourlyPrice!)),
+        if (category.multiHourlyPrice != null) l10n.pricePerHour(formatMoney(category.multiHourlyPrice!)),
       ].join(' · ');
 
   @override

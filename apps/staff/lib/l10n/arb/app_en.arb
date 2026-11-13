@@ -361,9 +361,15 @@
   "@orderLine": {
     "description": "One ordered product on the bill, e.g. Pepsi · 2 × 15",
     "placeholders": {
-      "name": {"type": "String"},
-      "quantity": {"type": "int"},
-      "price": {"type": "String"}
+      "name": {
+        "type": "String"
+      },
+      "quantity": {
+        "type": "int"
+      },
+      "price": {
+        "type": "String"
+      }
     }
   },
   "removeItem": "Remove",
@@ -442,14 +448,18 @@
   "@hoursFew": {
     "description": "3 to 10 hours",
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "hoursMany": "{count} hours",
   "@hoursMany": {
     "description": "11 or more hours",
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "minutesOne": "minute",
@@ -464,22 +474,30 @@
   "@minutesFew": {
     "description": "3 to 10 minutes",
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "minutesMany": "{count} minutes",
   "@minutesMany": {
     "description": "11 or more minutes",
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "hoursAndMinutes": "{hours} and {minutes}",
   "@hoursAndMinutes": {
     "description": "Joins hours and minutes: 1 hour and 20 minutes",
     "placeholders": {
-      "hours": {"type": "String"},
-      "minutes": {"type": "String"}
+      "hours": {
+        "type": "String"
+      },
+      "minutes": {
+        "type": "String"
+      }
     }
   },
   "lessThanMinute": "Less than a minute",
@@ -518,14 +536,18 @@
   "@stockLeft": {
     "description": "How many of a stock item are on the shelf",
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "stockShort": "Short by {count}",
   "@stockShort": {
     "description": "Shown when more was sold than the shelf count says (number on hand below 0)",
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "stockLow": "Running low",
@@ -620,14 +642,18 @@
   "@stockDiffShort": {
     "description": "Shown while counting: the shelf has less than the app expected",
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "stockDiffExtra": "{count} more than the app says",
   "@stockDiffExtra": {
     "description": "Shown while counting: the shelf has more than the app expected",
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "stockDiffNone": "Same as the app",
@@ -821,6 +847,15 @@
   "wrongPin": "Wrong PIN, try again",
   "@wrongPin": {
     "description": "Shown when the PIN does not match"
+  },
+  "pinLockedOut": "Too many wrong tries. Wait {time} and try again",
+  "@pinLockedOut": {
+    "description": "Shown when a PIN is refused for a while after several wrong tries; time is like \"30 seconds\" (see playedText)",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
   },
   "notYou": "Not you?",
   "@notYou": {
@@ -1066,16 +1101,448 @@
   "@unitTypeNameHint": {
     "description": "Example in the name field of a new device type"
   },
-  "unitTypeIconLabel": "Icon",
-  "@unitTypeIconLabel": {
-    "description": "Label above the icon choices of a new device type"
-  },
-  "unitTypePairLabel": "Has a second price when more than one plays?",
-  "@unitTypePairLabel": {
-    "description": "Switch in the new device type form"
-  },
   "unitTypeExists": "This type already exists",
   "@unitTypeExists": {
     "description": "Shown when the new type name is already used"
+  },
+  "setupTitle": "Set up the shop",
+  "@setupTitle": {
+    "description": "Title of the first-run setup screen"
+  },
+  "setupIntro": "This is the first run. Enter the shop's name and your details as the owner.",
+  "@setupIntro": {
+    "description": "Short line under the setup title"
+  },
+  "shopNameLabel": "Shop name",
+  "@shopNameLabel": {
+    "description": "Setup field label"
+  },
+  "ownerNameLabel": "Your name",
+  "@ownerNameLabel": {
+    "description": "Setup field label"
+  },
+  "ownerPhoneLabel": "Your mobile number",
+  "@ownerPhoneLabel": {
+    "description": "Setup field label"
+  },
+  "phoneInvalid": "The mobile number must be 11 digits and start with 010, 011, 012 or 015",
+  "@phoneInvalid": {
+    "description": "Shown when the owner's phone number is not an Egyptian mobile number"
+  },
+  "pinChooseLabel": "Choose a 4-digit PIN",
+  "@pinChooseLabel": {
+    "description": "Setup field label"
+  },
+  "pinRepeatLabel": "Type the PIN again",
+  "@pinRepeatLabel": {
+    "description": "Setup field label"
+  },
+  "pinMismatch": "The two PINs do not match",
+  "@pinMismatch": {
+    "description": "Shown when the repeated PIN differs"
+  },
+  "pinSetupHint": "You will open the app with it every day. Do not share it.",
+  "@pinSetupHint": {
+    "description": "Hint under the PIN fields"
+  },
+  "setupStart": "Start working",
+  "@setupStart": {
+    "description": "Button that finishes the setup"
+  },
+  "emptyFloorTitle": "No devices yet",
+  "@emptyFloorTitle": {
+    "description": "Floor title when the shop has no devices"
+  },
+  "emptyFloorHint": "Go to Manage, then Places and devices, and add your first device.",
+  "@emptyFloorHint": {
+    "description": "Floor hint when the shop has no devices"
+  },
+  "staffTitle": "Staff",
+  "@staffTitle": {
+    "description": "Manage area and form title"
+  },
+  "newStaff": "New staff member",
+  "@newStaff": {
+    "description": "Add card in the staff list"
+  },
+  "staffNameHint": "Staff member's name",
+  "@staffNameHint": {
+    "description": "Field hint"
+  },
+  "staffPhoneHint": "Mobile number",
+  "@staffPhoneHint": {
+    "description": "Field hint, for Admins"
+  },
+  "staffPinNewHint": "PIN (4 digits)",
+  "@staffPinNewHint": {
+    "description": "Field hint when adding a person"
+  },
+  "staffPinChangeHint": "New PIN (leave empty to keep it)",
+  "@staffPinChangeHint": {
+    "description": "Field hint when editing a person"
+  },
+  "roleOwner": "Owner",
+  "@roleOwner": {
+    "description": "Role label"
+  },
+  "roleAdmin": "Admin",
+  "@roleAdmin": {
+    "description": "Role label and switch title"
+  },
+  "roleStaff": "Staff",
+  "@roleStaff": {
+    "description": "Role label"
+  },
+  "staffAdminHint": "An Admin can change prices, see reports and sign in from their phone.",
+  "@staffAdminHint": {
+    "description": "Under the Admin switch"
+  },
+  "staffNameTaken": "This name is already used",
+  "@staffNameTaken": {
+    "description": "Shown when another person has the name"
+  },
+  "stopStaff": "Stop this person",
+  "@stopStaff": {
+    "description": "Button that stops a person from signing in"
+  },
+  "stopStaffConfirm": "Tap again to confirm",
+  "@stopStaffConfirm": {
+    "description": "Second tap on the stop button"
+  },
+  "activityTitle": "Activity log",
+  "@activityTitle": {
+    "description": "Manage area title"
+  },
+  "activitySuspiciousOnly": "Risky only",
+  "@activitySuspiciousOnly": {
+    "description": "Filter button: show only the risky lines"
+  },
+  "activityEmpty": "Nothing yet",
+  "@activityEmpty": {
+    "description": "Shown when the log is empty"
+  },
+  "activityCashClosed": "Closed the cash box: counted {counted}, should be {expected}",
+  "@activityCashClosed": {
+    "description": "A cash box was closed; both are formatted amounts",
+    "placeholders": {
+      "counted": {
+        "type": "String"
+      },
+      "expected": {
+        "type": "String"
+      }
+    }
+  },
+  "activityCashWithdrawal": "Took {amount} out of the cash box",
+  "@activityCashWithdrawal": {
+    "description": "Owner withdrawal",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "activityZeroCost": "Closed a session on {unit} at zero cost",
+  "@activityZeroCost": {
+    "description": "A session paid with nothing to pay",
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "activityDiscount": "Gave a discount of {amount} on {unit}",
+  "@activityDiscount": {
+    "description": "A discount at checkout",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "unit": {
+        "type": "String"
+      }
+    }
+  },
+  "activityPinLocked": "{name}'s PIN was locked after wrong tries",
+  "@activityPinLocked": {
+    "description": "Too many wrong PINs",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "activityStaffAdded": "Added {name}",
+  "@activityStaffAdded": {
+    "description": "Staff added",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "activityStaffStopped": "Stopped {name}",
+  "@activityStaffStopped": {
+    "description": "Staff stopped",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "activityPinReset": "Changed the PIN of {name}",
+  "@activityPinReset": {
+    "description": "PIN reset",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "activityRoleChanged": "Changed the role of {name}",
+  "@activityRoleChanged": {
+    "description": "Role changed",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "cancelSession": "Cancel session",
+  "@cancelSession": {
+    "description": "Button and title: end a session without payment"
+  },
+  "cancelBody": "The session will be thrown away without a bill, and {amount} will not be collected.",
+  "@cancelBody": {
+    "description": "Explains a cancel with money on it",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "cancelBodyNothing": "The session will be thrown away without a bill.",
+  "@cancelBodyNothing": {
+    "description": "Explains a cancel with nothing to pay"
+  },
+  "cancelReasonLabel": "Reason",
+  "@cancelReasonLabel": {
+    "description": "Label above the cancel reasons"
+  },
+  "cancelReasonMistake": "Started by mistake",
+  "@cancelReasonMistake": {
+    "description": "Cancel reason"
+  },
+  "cancelReasonLeft": "The customer left",
+  "@cancelReasonLeft": {
+    "description": "Cancel reason"
+  },
+  "cancelReasonDevice": "Device problem",
+  "@cancelReasonDevice": {
+    "description": "Cancel reason"
+  },
+  "cancelReasonOther": "Another reason",
+  "@cancelReasonOther": {
+    "description": "Cancel reason"
+  },
+  "cancelConfirm": "Yes, cancel it",
+  "@cancelConfirm": {
+    "description": "Confirm button"
+  },
+  "activitySessionCancelled": "Cancelled the session on {unit} ({reason}): {amount} not collected",
+  "@activitySessionCancelled": {
+    "description": "A cancelled session",
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      },
+      "reason": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "correctBill": "Correct the bill",
+  "@correctBill": {
+    "description": "Title of the form that changes a paid bill"
+  },
+  "correctCalculated": "Calculated price: {amount}",
+  "@correctCalculated": {
+    "description": "The price the bill came to before any discount",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "correctAmountLabel": "The right amount",
+  "@correctAmountLabel": {
+    "description": "Label of the amount field"
+  },
+  "correctTooHigh": "Cannot be more than {amount}",
+  "@correctTooHigh": {
+    "description": "Error when the amount is above the calculated price",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "correctSave": "Save the correction",
+  "@correctSave": {
+    "description": "Save button"
+  },
+  "correctReasonTime": "The time was counted wrong",
+  "@correctReasonTime": {
+    "description": "Correction reason"
+  },
+  "correctReasonOrder": "Wrong order",
+  "@correctReasonOrder": {
+    "description": "Correction reason"
+  },
+  "correctReasonAgreed": "A discount we agreed",
+  "@correctReasonAgreed": {
+    "description": "Correction reason"
+  },
+  "correctReasonOther": "Another reason",
+  "@correctReasonOther": {
+    "description": "Correction reason"
+  },
+  "activityBillCorrected": "Corrected the bill of {unit} from {before} to {after} ({reason})",
+  "@activityBillCorrected": {
+    "description": "A paid bill was changed",
+    "placeholders": {
+      "unit": {
+        "type": "String"
+      },
+      "before": {
+        "type": "String"
+      },
+      "after": {
+        "type": "String"
+      },
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "shiftCancelled": "{count, plural, =1{1 session cancelled, not collected} other{{count} sessions cancelled, not collected}}",
+  "@shiftCancelled": {
+    "description": "Shift summary: cancelled sessions, with the money they would have brought on the right",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "backupTitle": "Backup",
+  "@backupTitle": {
+    "description": "Settings section title"
+  },
+  "backupHelp": "The app copies the data every day and every time a cash box is closed, and keeps the last 14 copies. They are on this same computer, so copy the folder to a USB stick now and then.",
+  "@backupHelp": {
+    "description": "Explains the backups"
+  },
+  "backupFolder": "Backups are in: {path}",
+  "@backupFolder": {
+    "description": "Where the backup files are",
+    "placeholders": {
+      "path": {
+        "type": "String"
+      }
+    }
+  },
+  "backupNow": "Back up now",
+  "@backupNow": {
+    "description": "Button"
+  },
+  "backupDone": "Backup saved",
+  "@backupDone": {
+    "description": "Message after a backup"
+  },
+  "backupNone": "No backups yet",
+  "@backupNone": {
+    "description": "Empty list"
+  },
+  "backupRestore": "Restore",
+  "@backupRestore": {
+    "description": "Button next to a backup"
+  },
+  "backupRestoreConfirmTitle": "Restore the backup from {time}?",
+  "@backupRestoreConfirmTitle": {
+    "description": "Confirmation title",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "backupRestoreConfirmBody": "Anything done after this backup will be lost. A copy of the current data is kept first, so you can go back to it.",
+  "@backupRestoreConfirmBody": {
+    "description": "Confirmation text"
+  },
+  "backupRestoreYes": "Yes, restore",
+  "@backupRestoreYes": {
+    "description": "Confirm button"
+  },
+  "backupRestoreNo": "No, keep it",
+  "@backupRestoreNo": {
+    "description": "Cancel button"
+  },
+  "backupRestoreRestart": "Close the app and open it again to finish the restore.",
+  "@backupRestoreRestart": {
+    "description": "Shown after a restore was requested"
+  },
+  "paymentAccountsTitle": "Payment accounts",
+  "@paymentAccountsTitle": {
+    "description": "Settings section title"
+  },
+  "paymentAccountsHelp": "Customers see this code when they pay. Leave something empty and no code is shown for it.",
+  "@paymentAccountsHelp": {
+    "description": "Explains the payment accounts"
+  },
+  "paymentLinkLabel": "Payment link",
+  "@paymentLinkLabel": {
+    "description": "Field label"
+  },
+  "instapayHandleLabel": "InstaPay address (name@instapay)",
+  "@instapayHandleLabel": {
+    "description": "Field label"
+  },
+  "paymentPhoneLabel": "Mobile number",
+  "@paymentPhoneLabel": {
+    "description": "Field label"
+  },
+  "linkRequired": "The link is required",
+  "@linkRequired": {
+    "description": "Field error"
+  },
+  "linkInvalid": "The link must start with https://",
+  "@linkInvalid": {
+    "description": "Field error"
+  },
+  "paymentSaved": "Saved",
+  "@paymentSaved": {
+    "description": "Message after saving"
+  },
+  "activityPaymentChanged": "Changed the {method} payment account",
+  "@activityPaymentChanged": {
+    "description": "Activity log line",
+    "placeholders": {
+      "method": {
+        "type": "String"
+      }
+    }
+  },
+  "activityPaymentRemoved": "Removed the {method} payment account",
+  "@activityPaymentRemoved": {
+    "description": "Activity log line",
+    "placeholders": {
+      "method": {
+        "type": "String"
+      }
+    }
   }
 }

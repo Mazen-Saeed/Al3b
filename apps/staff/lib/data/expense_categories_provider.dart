@@ -19,6 +19,9 @@ class ExpenseCategoriesNotifier extends Notifier<List<ExpenseCategory>> {
   @override
   List<ExpenseCategory> build() => ref.read(initialExpenseCategoriesProvider);
 
+  /// Replaces the whole list. Used once, by the first-run setup.
+  void setAll(List<ExpenseCategory> categories) => state = categories;
+
   /// Whether [name] is already used by a visible category (other than [exceptId]).
   bool exists(String name, {String? exceptId}) {
     final wanted = name.trim();

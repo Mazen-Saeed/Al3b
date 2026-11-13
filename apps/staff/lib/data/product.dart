@@ -23,15 +23,22 @@ class Product {
 /// It copies the name and price at the moment of ordering (like an invoice line),
 /// so changing a product's price later never changes bills that already exist.
 class OrderLine {
-  const OrderLine({required this.productId, required this.name, required this.unitPrice, required this.quantity});
+  const OrderLine({
+    required this.productId,
+    required this.name,
+    required this.unitPrice,
+    required this.quantity,
+    required this.orderedAt,
+  });
 
   final String productId;
   final String name;
   final int unitPrice;
   final int quantity;
+  final DateTime orderedAt; // the first time this product was ordered on the bill
 
   int get total => unitPrice * quantity;
 
   OrderLine withQuantity(int quantity) =>
-      OrderLine(productId: productId, name: name, unitPrice: unitPrice, quantity: quantity);
+      OrderLine(productId: productId, name: name, unitPrice: unitPrice, quantity: quantity, orderedAt: orderedAt);
 }

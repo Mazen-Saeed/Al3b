@@ -594,6 +594,11 @@ class AppLocalizationsAr extends AppLocalizations {
   String get wrongPin => 'الرقم غلط، جرّب تاني';
 
   @override
+  String pinLockedOut(String time) {
+    return 'جرّبت كتير غلط. استنى $time وحاول تاني';
+  }
+
+  @override
   String get notYou => 'مش أنت؟';
 
   @override
@@ -778,11 +783,298 @@ class AppLocalizationsAr extends AppLocalizations {
   String get unitTypeNameHint => 'مثلاً: عربيات';
 
   @override
-  String get unitTypeIconLabel => 'الأيقونة';
-
-  @override
-  String get unitTypePairLabel => 'فيه سعر تاني لو أكتر من واحد بيلعب؟';
-
-  @override
   String get unitTypeExists => 'النوع ده موجود';
+
+  @override
+  String get setupTitle => 'جهّز المحل';
+
+  @override
+  String get setupIntro => 'ده أول تشغيل. اكتب اسم المحل وبياناتك كمالك.';
+
+  @override
+  String get shopNameLabel => 'اسم المحل';
+
+  @override
+  String get ownerNameLabel => 'اسمك';
+
+  @override
+  String get ownerPhoneLabel => 'رقم موبايلك';
+
+  @override
+  String get phoneInvalid =>
+      'رقم الموبايل لازم يكون 11 رقم ويبدأ بـ 010 أو 011 أو 012 أو 015';
+
+  @override
+  String get pinChooseLabel => 'اختار رقم سري من 4 أرقام';
+
+  @override
+  String get pinRepeatLabel => 'اكتب الرقم السري تاني';
+
+  @override
+  String get pinMismatch => 'الرقمين مش زي بعض';
+
+  @override
+  String get pinSetupHint => 'هتفتح بيه الشغل كل يوم، ومتقولوش لحد.';
+
+  @override
+  String get setupStart => 'ابدأ الشغل';
+
+  @override
+  String get emptyFloorTitle => 'لسه مفيش أجهزة';
+
+  @override
+  String get emptyFloorHint =>
+      'ادخل على الإدارة وبعدها الرومز والأجهزة، وضيف أول جهاز.';
+
+  @override
+  String get staffTitle => 'الموظفين';
+
+  @override
+  String get newStaff => 'موظف جديد';
+
+  @override
+  String get staffNameHint => 'اسم الموظف';
+
+  @override
+  String get staffPhoneHint => 'رقم الموبايل';
+
+  @override
+  String get staffPinNewHint => 'الرقم السري (4 أرقام)';
+
+  @override
+  String get staffPinChangeHint => 'رقم سري جديد (سيبه فاضي لو مش هتغيّره)';
+
+  @override
+  String get roleOwner => 'المالك';
+
+  @override
+  String get roleAdmin => 'أدمن';
+
+  @override
+  String get roleStaff => 'موظف';
+
+  @override
+  String get staffAdminHint =>
+      'الأدمن بيغيّر الأسعار ويشوف التقارير ويدخل من موبايله.';
+
+  @override
+  String get staffNameTaken => 'الاسم ده موجود';
+
+  @override
+  String get stopStaff => 'وقّف الموظف';
+
+  @override
+  String get stopStaffConfirm => 'اضغط تاني للتأكيد';
+
+  @override
+  String get activityTitle => 'سجل النشاط';
+
+  @override
+  String get activitySuspiciousOnly => 'المشبوه بس';
+
+  @override
+  String get activityEmpty => 'مفيش نشاط لسه';
+
+  @override
+  String activityCashClosed(String counted, String expected) {
+    return 'قفل الخزينة: العدّ $counted، والمفروض $expected';
+  }
+
+  @override
+  String activityCashWithdrawal(String amount) {
+    return 'سحب $amount من الخزينة';
+  }
+
+  @override
+  String activityZeroCost(String unit) {
+    return 'قفل جلسة $unit بصفر جنيه';
+  }
+
+  @override
+  String activityDiscount(String amount, String unit) {
+    return 'خصم $amount على $unit';
+  }
+
+  @override
+  String activityPinLocked(String name) {
+    return 'الرقم السري لـ $name اتقفل بعد محاولات غلط';
+  }
+
+  @override
+  String activityStaffAdded(String name) {
+    return 'ضاف $name';
+  }
+
+  @override
+  String activityStaffStopped(String name) {
+    return 'وقّف $name';
+  }
+
+  @override
+  String activityPinReset(String name) {
+    return 'غيّر الرقم السري لـ $name';
+  }
+
+  @override
+  String activityRoleChanged(String name) {
+    return 'غيّر صلاحية $name';
+  }
+
+  @override
+  String get cancelSession => 'إلغاء الجلسة';
+
+  @override
+  String cancelBody(String amount) {
+    return 'الجلسة هتتشال من غير حساب، و$amount مش هيتحصّلوا.';
+  }
+
+  @override
+  String get cancelBodyNothing => 'الجلسة هتتشال من غير حساب.';
+
+  @override
+  String get cancelReasonLabel => 'السبب';
+
+  @override
+  String get cancelReasonMistake => 'فتحتها بالغلط';
+
+  @override
+  String get cancelReasonLeft => 'الزبون مشي';
+
+  @override
+  String get cancelReasonDevice => 'عطل في الجهاز';
+
+  @override
+  String get cancelReasonOther => 'سبب تاني';
+
+  @override
+  String get cancelConfirm => 'أيوه، ألغيها';
+
+  @override
+  String activitySessionCancelled(String unit, String reason, String amount) {
+    return 'ألغى جلسة $unit ($reason): $amount متحصّلوش';
+  }
+
+  @override
+  String get correctBill => 'تصحيح الحساب';
+
+  @override
+  String correctCalculated(String amount) {
+    return 'الحساب المحسوب: $amount';
+  }
+
+  @override
+  String get correctAmountLabel => 'المبلغ الصح';
+
+  @override
+  String correctTooHigh(String amount) {
+    return 'مينفعش أكتر من $amount';
+  }
+
+  @override
+  String get correctSave => 'احفظ التصحيح';
+
+  @override
+  String get correctReasonTime => 'الوقت اتحسب غلط';
+
+  @override
+  String get correctReasonOrder => 'طلب غلط';
+
+  @override
+  String get correctReasonAgreed => 'خصم اتفقنا عليه';
+
+  @override
+  String get correctReasonOther => 'سبب تاني';
+
+  @override
+  String activityBillCorrected(
+    String unit,
+    String before,
+    String after,
+    String reason,
+  ) {
+    return 'صحّح حساب $unit من $before لـ $after ($reason)';
+  }
+
+  @override
+  String shiftCancelled(int count) {
+    return '$count جلسة اتلغت، ومتحصّلش';
+  }
+
+  @override
+  String get backupTitle => 'النسخ الاحتياطي';
+
+  @override
+  String get backupHelp =>
+      'البرنامج بياخد نسخة من الداتا كل يوم وكل ما تقفل الخزينة، وبيحتفظ بآخر 14 نسخة. النسخ على نفس الجهاز، فانسخ الفولدر على فلاشة من وقت للتاني.';
+
+  @override
+  String backupFolder(String path) {
+    return 'مكان النسخ: $path';
+  }
+
+  @override
+  String get backupNow => 'خد نسخة دلوقتي';
+
+  @override
+  String get backupDone => 'النسخة اتحفظت';
+
+  @override
+  String get backupNone => 'مفيش نسخ لسه';
+
+  @override
+  String get backupRestore => 'استرجاع';
+
+  @override
+  String backupRestoreConfirmTitle(String time) {
+    return 'نسترجع نسخة $time؟';
+  }
+
+  @override
+  String get backupRestoreConfirmBody =>
+      'أي حاجة اتعملت بعد النسخة دي هتضيع. هنحتفظ بنسخة من الداتا الحالية الأول، عشان تقدر ترجعلها.';
+
+  @override
+  String get backupRestoreYes => 'أيوه، استرجع';
+
+  @override
+  String get backupRestoreNo => 'لأ، سيبها';
+
+  @override
+  String get backupRestoreRestart =>
+      'اقفل البرنامج وافتحه تاني عشان الاسترجاع يتم.';
+
+  @override
+  String get paymentAccountsTitle => 'حسابات الدفع';
+
+  @override
+  String get paymentAccountsHelp =>
+      'الزبون بيشوف الكود ده وهو بيدفع. لو سيبت حاجة فاضية مش هيظهر كود ليها.';
+
+  @override
+  String get paymentLinkLabel => 'لينك الدفع';
+
+  @override
+  String get instapayHandleLabel => 'عنوان إنستاباي (name@instapay)';
+
+  @override
+  String get paymentPhoneLabel => 'رقم الموبايل';
+
+  @override
+  String get linkRequired => 'اللينك مطلوب';
+
+  @override
+  String get linkInvalid => 'اللينك لازم يبدأ بـ https://';
+
+  @override
+  String get paymentSaved => 'اتحفظ';
+
+  @override
+  String activityPaymentChanged(String method) {
+    return 'غيّر حساب الدفع بـ$method';
+  }
+
+  @override
+  String activityPaymentRemoved(String method) {
+    return 'شال حساب الدفع بـ$method';
+  }
 }

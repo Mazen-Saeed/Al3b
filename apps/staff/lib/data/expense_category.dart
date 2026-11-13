@@ -1,3 +1,5 @@
+import 'ids.dart';
+
 /// What kind of category it is. Only [normal] ones can be renamed or removed by the owner.
 enum ExpenseCategoryKind {
   normal, // salaries, rent...: the owner's own list
@@ -7,8 +9,7 @@ enum ExpenseCategoryKind {
 }
 
 /// A kind of expense, so reports can say where the money went. The schema's table is
-/// `expense_categories` (additive, #47); the ids of the built-in ones are fixed so every shop,
-/// and the backend, agree on them.
+/// `expense_categories` (additive, #47).
 class ExpenseCategory {
   const ExpenseCategory({required this.id, required this.name, this.kind = ExpenseCategoryKind.normal, this.active = true});
 
@@ -29,7 +30,8 @@ class ExpenseCategory {
       ExpenseCategory(id: id, name: name ?? this.name, kind: kind, active: active ?? this.active);
 }
 
-/// Fixed ids of the built-in categories.
+/// Fixed ids of the built-in categories. Only the sample shop and tests use them: a real shop gets its own
+/// ids from [defaultExpenseCategoriesFor], because ids must be unique across shops in the backend.
 class ExpenseCategoryIds {
   const ExpenseCategoryIds._();
 
@@ -43,8 +45,8 @@ class ExpenseCategoryIds {
   static const repayment = '69ff2b97-3cf8-4553-aef5-a2674e548ca7';
 }
 
-/// What every shop starts with. (Names are written in Arabic like the rest of the starting data;
-/// the owner can rename the normal ones.)
+/// What the sample shop starts with, with the fixed ids above. (Names are written in Arabic like the rest of
+/// the starting data; the owner can rename the normal ones.)
 const defaultExpenseCategories = [
   ExpenseCategory(id: ExpenseCategoryIds.stock, name: 'مخزون', kind: ExpenseCategoryKind.stock),
   ExpenseCategory(id: ExpenseCategoryIds.salaries, name: 'مرتبات'),
@@ -55,3 +57,18 @@ const defaultExpenseCategories = [
   ExpenseCategory(id: ExpenseCategoryIds.other, name: 'أخرى', kind: ExpenseCategoryKind.other),
   ExpenseCategory(id: ExpenseCategoryIds.repayment, name: 'سداد', kind: ExpenseCategoryKind.repayment),
 ];
+
+/// The starting list for a new shop. Each id is made from the shop's id, so two shops never share one.
+List<ExpenseCategory> defaultExpenseCategoriesFor(String venueId) => [
+      for (final c in defaultExpenseCategories)
+        ExpenseCategory(id: stableId('$venueId/expense-category/${c.id}'), name: c.name, kind: c.kind),
+    ];
+
+/// The id of the built-in category of [kind] (stock, other or repayment), or null if the list has none.
+/// Code finds these by kind, never by a fixed id, because every shop has its own ids.
+String? idOfKind(List<ExpenseCategory> all, ExpenseCategoryKind kind) {
+  for (final c in all) {
+    if (c.kind == kind) return c.id;
+  }
+  return null;
+}

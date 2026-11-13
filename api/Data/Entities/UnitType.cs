@@ -1,8 +1,12 @@
 namespace Al3b.Api.Data.Entities;
 
-// Global list (PS4, PS5, ...). Managed by the backend only, so it doesn't need sync columns.
-public class UnitType
+// A kind of device (PlayStation, ping pong, a shop's own "toy cars"...).
+// The four built-in ones are global rows: VenueId is null, the ids are fixed and seeded in
+// UnitTypeConfiguration. A shop's own types belong to that shop and sync like any other row (decision #61).
+public class UnitType : SyncedEntity
 {
-    public Guid Id { get; set; } = Guid.CreateVersion7();
+    public Guid? VenueId { get; set; }
+    public Venue? Venue { get; set; }
+
     public required string Name { get; set; }
 }

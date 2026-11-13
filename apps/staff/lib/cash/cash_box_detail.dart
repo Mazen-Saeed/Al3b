@@ -23,7 +23,7 @@ class CashBoxDetail extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
-    final staff = ref.watch(initialStaffProvider);
+    final staff = ref.watch(staffProvider);
     String nameOf(String id) => staff.where((s) => s.id == id).map((s) => s.name).firstOrNull ?? '';
     return Padding(
       padding: const EdgeInsetsDirectional.all(24),

@@ -4,14 +4,18 @@ import 'ids.dart';
 import 'price_category.dart';
 import 'units_provider.dart';
 
-/// The price categories when the app starts. Sample data for now; local SQLite later.
-final initialCategoriesProvider = Provider<List<PriceCategory>>((ref) => const [
-      PriceCategory(id: 'cat-ps5', name: 'PS5 عادي', hourlyPrice: 5000, multiHourlyPrice: 7000),
-      PriceCategory(id: 'cat-ps4', name: 'PS4', hourlyPrice: 6000, multiHourlyPrice: 8000),
-      PriceCategory(id: 'cat-vip', name: 'VIP', hourlyPrice: 9000, multiHourlyPrice: 12000),
-      PriceCategory(id: 'cat-pingpong', name: 'بينج بونج عادي', hourlyPrice: 4000, multiHourlyPrice: 6000),
-      PriceCategory(id: 'cat-billiards', name: 'بلياردو عادي', hourlyPrice: 6000),
-    ]);
+/// The sample price categories (the first run starts with them until the setup wizard exists).
+const sampleCategories = [
+  PriceCategory(id: 'cat-ps5', name: 'PS5 عادي', hourlyPrice: 5000, multiHourlyPrice: 7000),
+  PriceCategory(id: 'cat-ps4', name: 'PS4', hourlyPrice: 6000, multiHourlyPrice: 8000),
+  PriceCategory(id: 'cat-vip', name: 'VIP', hourlyPrice: 9000, multiHourlyPrice: 12000),
+  PriceCategory(id: 'cat-pingpong', name: 'بينج بونج عادي', hourlyPrice: 4000, multiHourlyPrice: 6000),
+  PriceCategory(id: 'cat-billiards', name: 'بلياردو عادي', hourlyPrice: 6000),
+];
+
+/// The price categories when the app starts: loaded from the database at startup (see main.dart).
+/// Tests replace it to start from their own.
+final initialCategoriesProvider = Provider<List<PriceCategory>>((ref) => sampleCategories);
 
 /// The price categories and what the owner does to them.
 class CategoriesNotifier extends Notifier<List<PriceCategory>> {

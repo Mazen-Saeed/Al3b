@@ -1,4 +1,5 @@
 using Al3b.Api.Data.Entities;
+using Al3b.Api.Data.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -8,6 +9,8 @@ public class PriceCategoryConfiguration : IEntityTypeConfiguration<PriceCategory
 {
     public void Configure(EntityTypeBuilder<PriceCategory> builder)
     {
+        builder.Property(c => c.PricingMode).HasDefaultValue(PricingMode.Hourly);
+
         builder.ToTable(t =>
         {
             t.HasCheckConstraint("ck_price_categories_hourly", "hourly_price >= 0");

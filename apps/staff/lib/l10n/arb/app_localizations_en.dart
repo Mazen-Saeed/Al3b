@@ -598,6 +598,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get wrongPin => 'Wrong PIN, try again';
 
   @override
+  String pinLockedOut(String time) {
+    return 'Too many wrong tries. Wait $time and try again';
+  }
+
+  @override
   String get notYou => 'Not you?';
 
   @override
@@ -784,12 +789,307 @@ class AppLocalizationsEn extends AppLocalizations {
   String get unitTypeNameHint => 'e.g. Toy cars';
 
   @override
-  String get unitTypeIconLabel => 'Icon';
-
-  @override
-  String get unitTypePairLabel =>
-      'Has a second price when more than one plays?';
-
-  @override
   String get unitTypeExists => 'This type already exists';
+
+  @override
+  String get setupTitle => 'Set up the shop';
+
+  @override
+  String get setupIntro =>
+      'This is the first run. Enter the shop\'s name and your details as the owner.';
+
+  @override
+  String get shopNameLabel => 'Shop name';
+
+  @override
+  String get ownerNameLabel => 'Your name';
+
+  @override
+  String get ownerPhoneLabel => 'Your mobile number';
+
+  @override
+  String get phoneInvalid =>
+      'The mobile number must be 11 digits and start with 010, 011, 012 or 015';
+
+  @override
+  String get pinChooseLabel => 'Choose a 4-digit PIN';
+
+  @override
+  String get pinRepeatLabel => 'Type the PIN again';
+
+  @override
+  String get pinMismatch => 'The two PINs do not match';
+
+  @override
+  String get pinSetupHint =>
+      'You will open the app with it every day. Do not share it.';
+
+  @override
+  String get setupStart => 'Start working';
+
+  @override
+  String get emptyFloorTitle => 'No devices yet';
+
+  @override
+  String get emptyFloorHint =>
+      'Go to Manage, then Places and devices, and add your first device.';
+
+  @override
+  String get staffTitle => 'Staff';
+
+  @override
+  String get newStaff => 'New staff member';
+
+  @override
+  String get staffNameHint => 'Staff member\'s name';
+
+  @override
+  String get staffPhoneHint => 'Mobile number';
+
+  @override
+  String get staffPinNewHint => 'PIN (4 digits)';
+
+  @override
+  String get staffPinChangeHint => 'New PIN (leave empty to keep it)';
+
+  @override
+  String get roleOwner => 'Owner';
+
+  @override
+  String get roleAdmin => 'Admin';
+
+  @override
+  String get roleStaff => 'Staff';
+
+  @override
+  String get staffAdminHint =>
+      'An Admin can change prices, see reports and sign in from their phone.';
+
+  @override
+  String get staffNameTaken => 'This name is already used';
+
+  @override
+  String get stopStaff => 'Stop this person';
+
+  @override
+  String get stopStaffConfirm => 'Tap again to confirm';
+
+  @override
+  String get activityTitle => 'Activity log';
+
+  @override
+  String get activitySuspiciousOnly => 'Risky only';
+
+  @override
+  String get activityEmpty => 'Nothing yet';
+
+  @override
+  String activityCashClosed(String counted, String expected) {
+    return 'Closed the cash box: counted $counted, should be $expected';
+  }
+
+  @override
+  String activityCashWithdrawal(String amount) {
+    return 'Took $amount out of the cash box';
+  }
+
+  @override
+  String activityZeroCost(String unit) {
+    return 'Closed a session on $unit at zero cost';
+  }
+
+  @override
+  String activityDiscount(String amount, String unit) {
+    return 'Gave a discount of $amount on $unit';
+  }
+
+  @override
+  String activityPinLocked(String name) {
+    return '$name\'s PIN was locked after wrong tries';
+  }
+
+  @override
+  String activityStaffAdded(String name) {
+    return 'Added $name';
+  }
+
+  @override
+  String activityStaffStopped(String name) {
+    return 'Stopped $name';
+  }
+
+  @override
+  String activityPinReset(String name) {
+    return 'Changed the PIN of $name';
+  }
+
+  @override
+  String activityRoleChanged(String name) {
+    return 'Changed the role of $name';
+  }
+
+  @override
+  String get cancelSession => 'Cancel session';
+
+  @override
+  String cancelBody(String amount) {
+    return 'The session will be thrown away without a bill, and $amount will not be collected.';
+  }
+
+  @override
+  String get cancelBodyNothing =>
+      'The session will be thrown away without a bill.';
+
+  @override
+  String get cancelReasonLabel => 'Reason';
+
+  @override
+  String get cancelReasonMistake => 'Started by mistake';
+
+  @override
+  String get cancelReasonLeft => 'The customer left';
+
+  @override
+  String get cancelReasonDevice => 'Device problem';
+
+  @override
+  String get cancelReasonOther => 'Another reason';
+
+  @override
+  String get cancelConfirm => 'Yes, cancel it';
+
+  @override
+  String activitySessionCancelled(String unit, String reason, String amount) {
+    return 'Cancelled the session on $unit ($reason): $amount not collected';
+  }
+
+  @override
+  String get correctBill => 'Correct the bill';
+
+  @override
+  String correctCalculated(String amount) {
+    return 'Calculated price: $amount';
+  }
+
+  @override
+  String get correctAmountLabel => 'The right amount';
+
+  @override
+  String correctTooHigh(String amount) {
+    return 'Cannot be more than $amount';
+  }
+
+  @override
+  String get correctSave => 'Save the correction';
+
+  @override
+  String get correctReasonTime => 'The time was counted wrong';
+
+  @override
+  String get correctReasonOrder => 'Wrong order';
+
+  @override
+  String get correctReasonAgreed => 'A discount we agreed';
+
+  @override
+  String get correctReasonOther => 'Another reason';
+
+  @override
+  String activityBillCorrected(
+    String unit,
+    String before,
+    String after,
+    String reason,
+  ) {
+    return 'Corrected the bill of $unit from $before to $after ($reason)';
+  }
+
+  @override
+  String shiftCancelled(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count sessions cancelled, not collected',
+      one: '1 session cancelled, not collected',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get backupTitle => 'Backup';
+
+  @override
+  String get backupHelp =>
+      'The app copies the data every day and every time a cash box is closed, and keeps the last 14 copies. They are on this same computer, so copy the folder to a USB stick now and then.';
+
+  @override
+  String backupFolder(String path) {
+    return 'Backups are in: $path';
+  }
+
+  @override
+  String get backupNow => 'Back up now';
+
+  @override
+  String get backupDone => 'Backup saved';
+
+  @override
+  String get backupNone => 'No backups yet';
+
+  @override
+  String get backupRestore => 'Restore';
+
+  @override
+  String backupRestoreConfirmTitle(String time) {
+    return 'Restore the backup from $time?';
+  }
+
+  @override
+  String get backupRestoreConfirmBody =>
+      'Anything done after this backup will be lost. A copy of the current data is kept first, so you can go back to it.';
+
+  @override
+  String get backupRestoreYes => 'Yes, restore';
+
+  @override
+  String get backupRestoreNo => 'No, keep it';
+
+  @override
+  String get backupRestoreRestart =>
+      'Close the app and open it again to finish the restore.';
+
+  @override
+  String get paymentAccountsTitle => 'Payment accounts';
+
+  @override
+  String get paymentAccountsHelp =>
+      'Customers see this code when they pay. Leave something empty and no code is shown for it.';
+
+  @override
+  String get paymentLinkLabel => 'Payment link';
+
+  @override
+  String get instapayHandleLabel => 'InstaPay address (name@instapay)';
+
+  @override
+  String get paymentPhoneLabel => 'Mobile number';
+
+  @override
+  String get linkRequired => 'The link is required';
+
+  @override
+  String get linkInvalid => 'The link must start with https://';
+
+  @override
+  String get paymentSaved => 'Saved';
+
+  @override
+  String activityPaymentChanged(String method) {
+    return 'Changed the $method payment account';
+  }
+
+  @override
+  String activityPaymentRemoved(String method) {
+    return 'Removed the $method payment account';
+  }
 }

@@ -1160,6 +1160,12 @@ abstract class AppLocalizations {
   /// **'Wrong PIN, try again'**
   String get wrongPin;
 
+  /// Shown when a PIN is refused for a while after several wrong tries; time is like "30 seconds" (see playedText)
+  ///
+  /// In en, this message translates to:
+  /// **'Too many wrong tries. Wait {time} and try again'**
+  String pinLockedOut(String time);
+
   /// Link on the PIN step that goes back to the list of names
   ///
   /// In en, this message translates to:
@@ -1526,23 +1532,502 @@ abstract class AppLocalizations {
   /// **'e.g. Toy cars'**
   String get unitTypeNameHint;
 
-  /// Label above the icon choices of a new device type
-  ///
-  /// In en, this message translates to:
-  /// **'Icon'**
-  String get unitTypeIconLabel;
-
-  /// Switch in the new device type form
-  ///
-  /// In en, this message translates to:
-  /// **'Has a second price when more than one plays?'**
-  String get unitTypePairLabel;
-
   /// Shown when the new type name is already used
   ///
   /// In en, this message translates to:
   /// **'This type already exists'**
   String get unitTypeExists;
+
+  /// Title of the first-run setup screen
+  ///
+  /// In en, this message translates to:
+  /// **'Set up the shop'**
+  String get setupTitle;
+
+  /// Short line under the setup title
+  ///
+  /// In en, this message translates to:
+  /// **'This is the first run. Enter the shop\'s name and your details as the owner.'**
+  String get setupIntro;
+
+  /// Setup field label
+  ///
+  /// In en, this message translates to:
+  /// **'Shop name'**
+  String get shopNameLabel;
+
+  /// Setup field label
+  ///
+  /// In en, this message translates to:
+  /// **'Your name'**
+  String get ownerNameLabel;
+
+  /// Setup field label
+  ///
+  /// In en, this message translates to:
+  /// **'Your mobile number'**
+  String get ownerPhoneLabel;
+
+  /// Shown when the owner's phone number is not an Egyptian mobile number
+  ///
+  /// In en, this message translates to:
+  /// **'The mobile number must be 11 digits and start with 010, 011, 012 or 015'**
+  String get phoneInvalid;
+
+  /// Setup field label
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a 4-digit PIN'**
+  String get pinChooseLabel;
+
+  /// Setup field label
+  ///
+  /// In en, this message translates to:
+  /// **'Type the PIN again'**
+  String get pinRepeatLabel;
+
+  /// Shown when the repeated PIN differs
+  ///
+  /// In en, this message translates to:
+  /// **'The two PINs do not match'**
+  String get pinMismatch;
+
+  /// Hint under the PIN fields
+  ///
+  /// In en, this message translates to:
+  /// **'You will open the app with it every day. Do not share it.'**
+  String get pinSetupHint;
+
+  /// Button that finishes the setup
+  ///
+  /// In en, this message translates to:
+  /// **'Start working'**
+  String get setupStart;
+
+  /// Floor title when the shop has no devices
+  ///
+  /// In en, this message translates to:
+  /// **'No devices yet'**
+  String get emptyFloorTitle;
+
+  /// Floor hint when the shop has no devices
+  ///
+  /// In en, this message translates to:
+  /// **'Go to Manage, then Places and devices, and add your first device.'**
+  String get emptyFloorHint;
+
+  /// Manage area and form title
+  ///
+  /// In en, this message translates to:
+  /// **'Staff'**
+  String get staffTitle;
+
+  /// Add card in the staff list
+  ///
+  /// In en, this message translates to:
+  /// **'New staff member'**
+  String get newStaff;
+
+  /// Field hint
+  ///
+  /// In en, this message translates to:
+  /// **'Staff member\'s name'**
+  String get staffNameHint;
+
+  /// Field hint, for Admins
+  ///
+  /// In en, this message translates to:
+  /// **'Mobile number'**
+  String get staffPhoneHint;
+
+  /// Field hint when adding a person
+  ///
+  /// In en, this message translates to:
+  /// **'PIN (4 digits)'**
+  String get staffPinNewHint;
+
+  /// Field hint when editing a person
+  ///
+  /// In en, this message translates to:
+  /// **'New PIN (leave empty to keep it)'**
+  String get staffPinChangeHint;
+
+  /// Role label
+  ///
+  /// In en, this message translates to:
+  /// **'Owner'**
+  String get roleOwner;
+
+  /// Role label and switch title
+  ///
+  /// In en, this message translates to:
+  /// **'Admin'**
+  String get roleAdmin;
+
+  /// Role label
+  ///
+  /// In en, this message translates to:
+  /// **'Staff'**
+  String get roleStaff;
+
+  /// Under the Admin switch
+  ///
+  /// In en, this message translates to:
+  /// **'An Admin can change prices, see reports and sign in from their phone.'**
+  String get staffAdminHint;
+
+  /// Shown when another person has the name
+  ///
+  /// In en, this message translates to:
+  /// **'This name is already used'**
+  String get staffNameTaken;
+
+  /// Button that stops a person from signing in
+  ///
+  /// In en, this message translates to:
+  /// **'Stop this person'**
+  String get stopStaff;
+
+  /// Second tap on the stop button
+  ///
+  /// In en, this message translates to:
+  /// **'Tap again to confirm'**
+  String get stopStaffConfirm;
+
+  /// Manage area title
+  ///
+  /// In en, this message translates to:
+  /// **'Activity log'**
+  String get activityTitle;
+
+  /// Filter button: show only the risky lines
+  ///
+  /// In en, this message translates to:
+  /// **'Risky only'**
+  String get activitySuspiciousOnly;
+
+  /// Shown when the log is empty
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing yet'**
+  String get activityEmpty;
+
+  /// A cash box was closed; both are formatted amounts
+  ///
+  /// In en, this message translates to:
+  /// **'Closed the cash box: counted {counted}, should be {expected}'**
+  String activityCashClosed(String counted, String expected);
+
+  /// Owner withdrawal
+  ///
+  /// In en, this message translates to:
+  /// **'Took {amount} out of the cash box'**
+  String activityCashWithdrawal(String amount);
+
+  /// A session paid with nothing to pay
+  ///
+  /// In en, this message translates to:
+  /// **'Closed a session on {unit} at zero cost'**
+  String activityZeroCost(String unit);
+
+  /// A discount at checkout
+  ///
+  /// In en, this message translates to:
+  /// **'Gave a discount of {amount} on {unit}'**
+  String activityDiscount(String amount, String unit);
+
+  /// Too many wrong PINs
+  ///
+  /// In en, this message translates to:
+  /// **'{name}\'s PIN was locked after wrong tries'**
+  String activityPinLocked(String name);
+
+  /// Staff added
+  ///
+  /// In en, this message translates to:
+  /// **'Added {name}'**
+  String activityStaffAdded(String name);
+
+  /// Staff stopped
+  ///
+  /// In en, this message translates to:
+  /// **'Stopped {name}'**
+  String activityStaffStopped(String name);
+
+  /// PIN reset
+  ///
+  /// In en, this message translates to:
+  /// **'Changed the PIN of {name}'**
+  String activityPinReset(String name);
+
+  /// Role changed
+  ///
+  /// In en, this message translates to:
+  /// **'Changed the role of {name}'**
+  String activityRoleChanged(String name);
+
+  /// Button and title: end a session without payment
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel session'**
+  String get cancelSession;
+
+  /// Explains a cancel with money on it
+  ///
+  /// In en, this message translates to:
+  /// **'The session will be thrown away without a bill, and {amount} will not be collected.'**
+  String cancelBody(String amount);
+
+  /// Explains a cancel with nothing to pay
+  ///
+  /// In en, this message translates to:
+  /// **'The session will be thrown away without a bill.'**
+  String get cancelBodyNothing;
+
+  /// Label above the cancel reasons
+  ///
+  /// In en, this message translates to:
+  /// **'Reason'**
+  String get cancelReasonLabel;
+
+  /// Cancel reason
+  ///
+  /// In en, this message translates to:
+  /// **'Started by mistake'**
+  String get cancelReasonMistake;
+
+  /// Cancel reason
+  ///
+  /// In en, this message translates to:
+  /// **'The customer left'**
+  String get cancelReasonLeft;
+
+  /// Cancel reason
+  ///
+  /// In en, this message translates to:
+  /// **'Device problem'**
+  String get cancelReasonDevice;
+
+  /// Cancel reason
+  ///
+  /// In en, this message translates to:
+  /// **'Another reason'**
+  String get cancelReasonOther;
+
+  /// Confirm button
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, cancel it'**
+  String get cancelConfirm;
+
+  /// A cancelled session
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled the session on {unit} ({reason}): {amount} not collected'**
+  String activitySessionCancelled(String unit, String reason, String amount);
+
+  /// Title of the form that changes a paid bill
+  ///
+  /// In en, this message translates to:
+  /// **'Correct the bill'**
+  String get correctBill;
+
+  /// The price the bill came to before any discount
+  ///
+  /// In en, this message translates to:
+  /// **'Calculated price: {amount}'**
+  String correctCalculated(String amount);
+
+  /// Label of the amount field
+  ///
+  /// In en, this message translates to:
+  /// **'The right amount'**
+  String get correctAmountLabel;
+
+  /// Error when the amount is above the calculated price
+  ///
+  /// In en, this message translates to:
+  /// **'Cannot be more than {amount}'**
+  String correctTooHigh(String amount);
+
+  /// Save button
+  ///
+  /// In en, this message translates to:
+  /// **'Save the correction'**
+  String get correctSave;
+
+  /// Correction reason
+  ///
+  /// In en, this message translates to:
+  /// **'The time was counted wrong'**
+  String get correctReasonTime;
+
+  /// Correction reason
+  ///
+  /// In en, this message translates to:
+  /// **'Wrong order'**
+  String get correctReasonOrder;
+
+  /// Correction reason
+  ///
+  /// In en, this message translates to:
+  /// **'A discount we agreed'**
+  String get correctReasonAgreed;
+
+  /// Correction reason
+  ///
+  /// In en, this message translates to:
+  /// **'Another reason'**
+  String get correctReasonOther;
+
+  /// A paid bill was changed
+  ///
+  /// In en, this message translates to:
+  /// **'Corrected the bill of {unit} from {before} to {after} ({reason})'**
+  String activityBillCorrected(
+    String unit,
+    String before,
+    String after,
+    String reason,
+  );
+
+  /// Shift summary: cancelled sessions, with the money they would have brought on the right
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 session cancelled, not collected} other{{count} sessions cancelled, not collected}}'**
+  String shiftCancelled(int count);
+
+  /// Settings section title
+  ///
+  /// In en, this message translates to:
+  /// **'Backup'**
+  String get backupTitle;
+
+  /// Explains the backups
+  ///
+  /// In en, this message translates to:
+  /// **'The app copies the data every day and every time a cash box is closed, and keeps the last 14 copies. They are on this same computer, so copy the folder to a USB stick now and then.'**
+  String get backupHelp;
+
+  /// Where the backup files are
+  ///
+  /// In en, this message translates to:
+  /// **'Backups are in: {path}'**
+  String backupFolder(String path);
+
+  /// Button
+  ///
+  /// In en, this message translates to:
+  /// **'Back up now'**
+  String get backupNow;
+
+  /// Message after a backup
+  ///
+  /// In en, this message translates to:
+  /// **'Backup saved'**
+  String get backupDone;
+
+  /// Empty list
+  ///
+  /// In en, this message translates to:
+  /// **'No backups yet'**
+  String get backupNone;
+
+  /// Button next to a backup
+  ///
+  /// In en, this message translates to:
+  /// **'Restore'**
+  String get backupRestore;
+
+  /// Confirmation title
+  ///
+  /// In en, this message translates to:
+  /// **'Restore the backup from {time}?'**
+  String backupRestoreConfirmTitle(String time);
+
+  /// Confirmation text
+  ///
+  /// In en, this message translates to:
+  /// **'Anything done after this backup will be lost. A copy of the current data is kept first, so you can go back to it.'**
+  String get backupRestoreConfirmBody;
+
+  /// Confirm button
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, restore'**
+  String get backupRestoreYes;
+
+  /// Cancel button
+  ///
+  /// In en, this message translates to:
+  /// **'No, keep it'**
+  String get backupRestoreNo;
+
+  /// Shown after a restore was requested
+  ///
+  /// In en, this message translates to:
+  /// **'Close the app and open it again to finish the restore.'**
+  String get backupRestoreRestart;
+
+  /// Settings section title
+  ///
+  /// In en, this message translates to:
+  /// **'Payment accounts'**
+  String get paymentAccountsTitle;
+
+  /// Explains the payment accounts
+  ///
+  /// In en, this message translates to:
+  /// **'Customers see this code when they pay. Leave something empty and no code is shown for it.'**
+  String get paymentAccountsHelp;
+
+  /// Field label
+  ///
+  /// In en, this message translates to:
+  /// **'Payment link'**
+  String get paymentLinkLabel;
+
+  /// Field label
+  ///
+  /// In en, this message translates to:
+  /// **'InstaPay address (name@instapay)'**
+  String get instapayHandleLabel;
+
+  /// Field label
+  ///
+  /// In en, this message translates to:
+  /// **'Mobile number'**
+  String get paymentPhoneLabel;
+
+  /// Field error
+  ///
+  /// In en, this message translates to:
+  /// **'The link is required'**
+  String get linkRequired;
+
+  /// Field error
+  ///
+  /// In en, this message translates to:
+  /// **'The link must start with https://'**
+  String get linkInvalid;
+
+  /// Message after saving
+  ///
+  /// In en, this message translates to:
+  /// **'Saved'**
+  String get paymentSaved;
+
+  /// Activity log line
+  ///
+  /// In en, this message translates to:
+  /// **'Changed the {method} payment account'**
+  String activityPaymentChanged(String method);
+
+  /// Activity log line
+  ///
+  /// In en, this message translates to:
+  /// **'Removed the {method} payment account'**
+  String activityPaymentRemoved(String method);
 }
 
 class _AppLocalizationsDelegate

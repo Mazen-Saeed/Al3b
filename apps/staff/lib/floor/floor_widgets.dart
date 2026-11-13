@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../app_theme.dart';
 import '../data/sample_data.dart';
+import '../data/shop_info.dart';
 import '../data/staff_provider.dart';
 import '../data/unit.dart';
 import '../data/units_provider.dart';
@@ -34,7 +35,7 @@ class FloorHeader extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(sampleVenueName, style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w700)),
+              Text(ref.watch(shopInfoProvider)?.name ?? '', style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w700)),
               Text(l10n.floorSummary(running, free), style: AppText.label),
             ],
           ),

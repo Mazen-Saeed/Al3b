@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../app_theme.dart';
+import '../data/activity_log.dart';
 import '../data/bills_provider.dart';
 import '../data/cash_box.dart';
 import '../data/cash_box_provider.dart';
@@ -23,6 +24,7 @@ class ShiftNumbers extends ConsumerWidget {
     final l10n = context.l10n;
     ref.watch(billsProvider); // redraw when a payment is added
     ref.watch(cashBoxProvider); // ...or a movement
+    final log = ref.watch(activityLogProvider); // ...or a session is cancelled
     final s = ref.read(cashBoxProvider.notifier).summaryOf(box);
     String egp(int v) => l10n.amountEgp(formatMoney(v));
 
@@ -32,6 +34,12 @@ class ShiftNumbers extends ConsumerWidget {
       (l10n.cashInAction, s.cashIn, s.cashIn > 0 ? AppColors.free : null),
       (l10n.expenseAction, -s.expenses, s.expenses > 0 ? AppColors.waitingPayment : null),
       (l10n.ownerWithdrawalAction, -s.withdrawals, s.withdrawals > 0 ? AppColors.waitingPayment : null),
+    ];
+    // Sessions cancelled while this cash box was open, and what they would have brought.
+    final end = box.closedAt;
+    final cancelled = [
+      for (final e in log)
+        if (e.kind == ActivityKind.sessionCancelled && !e.at.isBefore(box.openedAt) && (end == null || !e.at.isAfter(end))) e,
     ];
     final diff = box.difference;
     return Column(
@@ -55,6 +63,14 @@ class ShiftNumbers extends ConsumerWidget {
         const SizedBox(height: 4),
         _Line(label: l10n.payInstapay, value: egp(s.instapay)),
         _Line(label: l10n.payWallet, value: egp(s.wallet)),
+        if (cancelled.isNotEmpty) ...[
+          const SizedBox(height: 14),
+          _Line(
+            label: l10n.shiftCancelled(cancelled.length),
+            value: egp(cancelled.fold(0, (sum, e) => sum + (e.number('amount') ?? 0))),
+            color: AppColors.waitingPayment,
+          ),
+        ],
       ],
     );
   }
